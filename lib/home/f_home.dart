@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:maptravel/Home/w_search_widget.dart';
-import 'package:maptravel/home/vo/dummy.dart';
-import 'package:maptravel/home/vo/vo_plane.dart';
+import 'package:maptravel/vo/dummy.dart';
 import 'package:maptravel/home/w_plane.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+import '../vo/vo_plane.dart';
+
+class HomeFragment extends StatefulWidget {
+  const HomeFragment({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeFragment> createState() => _HomeFragmentState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeFragmentState extends State<HomeFragment> {
   late final List<Plane> _planeList;
 
   @override
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchWidget(),
+        const SearchWidget(),
         Expanded(
           child: SingleChildScrollView(
             child: Column(
