@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:maptravel/api/api_profile.dart';
 import 'package:maptravel/common/constant/profile_constant.dart';
+import 'package:maptravel/common/secure_storage/secure_strage.dart';
 
-import '../vo/dummy.dart';
-import '../vo/vo_user.dart';
+import '../dto/vo_user.dart';
+import '../sign/f_login.dart';
 
 class ProfileFragment extends StatefulWidget {
   const ProfileFragment({super.key});
@@ -14,9 +16,23 @@ class ProfileFragment extends StatefulWidget {
 class _WriteScreenState extends State<ProfileFragment> {
   late User _user;
 
+  void waitAPI() async {
+    getIsLogin().then(
+          (value) => {
+        if (value == null)
+          {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const LoginFragment()))
+          },
+      },
+    );
+    _user = await getProfile();
+    setState(() {});
+  }
+
   @override
   void initState() {
-    _user = user;
+    waitAPI();
     super.initState();
   }
 
@@ -33,10 +49,14 @@ class _WriteScreenState extends State<ProfileFragment> {
                 borderRadius:
                     BorderRadius.circular(ProfileConstant.profileImageRadius),
               ),
-              child: Image.network(
-                _user.profileImageUrl,
-                width: ProfileConstant.profileImageWidth,
-                height: ProfileConstant.profileImageHeight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.network(
+                  _user.profileImageUrl,
+                  width: ProfileConstant.profileImageWidth,
+                  height: ProfileConstant.profileImageHeight,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -60,6 +80,37 @@ class _WriteScreenState extends State<ProfileFragment> {
                   ),
                   IconButton(
                     onPressed: () {},
+                    icon: const Icon(
+                      Icons.keyboard_arrow_down,
+                      size: 30,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            height: 60,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Colors.grey.shade200),
+                  bottom: BorderSide(color: Colors.grey.shade200),
+                )),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '로그아웃',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      logout();
+                    },
                     icon: const Icon(
                       Icons.keyboard_arrow_down,
                       size: 30,

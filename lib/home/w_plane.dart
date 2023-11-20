@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:maptravel/dto/vo_plane_list.dart';
 import 'package:maptravel/s_plane_detail.dart';
 
-import '../vo/vo_plane.dart';
-
 class PlaneWidget extends StatelessWidget {
-  final Plane plane;
+  final PlaneList planeList;
 
-  const PlaneWidget({required this.plane, super.key});
+  const PlaneWidget({required this.planeList, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +22,14 @@ class PlaneWidget extends StatelessWidget {
                       color: Colors.green.shade100,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Image.network(
-                      plane.user.profileImageUrl,
-                      width: 40,
-                      height: 40,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        planeList.userProfileImageUrl,
+                        width: 40,
+                        height: 40,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -35,13 +38,13 @@ class PlaneWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      plane.user.nickname,
+                      planeList.userNickname,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Row(
                       children: [
                         Text(
-                          plane.country,
+                          planeList.country,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         const Padding(
@@ -52,7 +55,7 @@ class PlaneWidget extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          plane.city,
+                          planeList.city,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],
@@ -71,8 +74,9 @@ class PlaneWidget extends StatelessWidget {
                     builder: (context) => const PlaneDetailScreen()));
           },
           child: Image.network(
-            plane.thumbnailUrl,
+            planeList.thumbnailUrl,
             width: double.infinity,
+            fit: BoxFit.cover,
           ),
         ),
         Column(
@@ -81,7 +85,7 @@ class PlaneWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
               child: Text(
-                plane.subject,
+                planeList.subject,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
@@ -103,7 +107,7 @@ class PlaneWidget extends StatelessWidget {
                           bottom: -3,
                           child: Align(
                             alignment: Alignment.bottomCenter,
-                            child: Text(plane.likeCount.toString()),
+                            child: Text("30"), //좋아요 카운트
                           ),
                         ),
                       ],
@@ -135,7 +139,7 @@ class PlaneWidget extends StatelessWidget {
                       bottom: -3,
                       child: Align(
                         alignment: Alignment.bottomCenter,
-                        child: Text(plane.viewCount.toString()),
+                        child: Text(planeList.viewCount.toString()),
                       ),
                     ),
                   ],

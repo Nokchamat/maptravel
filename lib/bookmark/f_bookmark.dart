@@ -1,22 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:maptravel/vo/dummy.dart';
-import 'package:maptravel/vo/vo_plane.dart';
+import 'package:maptravel/api/api_bookmark.dart';
+import 'package:maptravel/common/secure_storage/secure_strage.dart';
+import 'package:maptravel/dto/vo_bookmark.dart';
+import 'package:maptravel/sign/f_login.dart';
 
 class BookmarkFragment extends StatefulWidget {
   const BookmarkFragment({super.key});
 
   @override
-  State<BookmarkFragment> createState() => _WriteScreenState();
+  State<BookmarkFragment> createState() => _BookmarkFragment();
 }
 
-class _WriteScreenState extends State<BookmarkFragment> {
-  late List<Plane> _planeList;
+class _BookmarkFragment extends State<BookmarkFragment> {
+  List<Bookmark> _bookmarkList = [];
+  late BookmarkResponse _bookmarkResponse;
+
+  void waitAPI() async {
+    getIsLogin().then(
+      (value) => {
+        if (value == null)
+          {
+            print('logout 상태'),
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const LoginFragment()))
+          },
+      },
+    );
+    _bookmarkResponse = await getBookmark();
+    _bookmarkList = _bookmarkResponse.content;
+    setState(() {});
+  }
 
   @override
   void initState() {
-    _planeList = planeList;
-
     super.initState();
+    waitAPI();
   }
 
   @override
@@ -26,15 +44,17 @@ class _WriteScreenState extends State<BookmarkFragment> {
       crossAxisCount: 2,
       crossAxisSpacing: 5,
       mainAxisSpacing: 5,
-      children: [..._planeList.map((e) => BookmarkWidget(plane: e))],
+      children: [
+        ..._bookmarkList.map((bookmark) => BookmarkWidget(bookmark: bookmark))
+      ],
     );
   }
 }
 
 class BookmarkWidget extends StatelessWidget {
-  final Plane plane;
+  final Bookmark bookmark;
 
-  const BookmarkWidget({required this.plane, super.key});
+  const BookmarkWidget({required this.bookmark, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +78,7 @@ class BookmarkWidget extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(
-                    plane.thumbnailUrl,
+                    bookmark.thumbnailUrl,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -77,7 +97,7 @@ class BookmarkWidget extends StatelessWidget {
                 ),
                 child: Container(
                   margin: const EdgeInsets.all(5),
-                  child: Text(plane.subject),
+                  child: Text(bookmark.subject),
                 ),
               ),
             ),
