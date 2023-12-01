@@ -1,5 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:maptravel/api/api_bookmark.dart';
+import 'package:http/http.dart' as http;
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
 import 'package:maptravel/dto/vo_bookmark.dart';
 import 'package:maptravel/sign/f_login.dart';
@@ -20,14 +22,88 @@ class _BookmarkFragment extends State<BookmarkFragment> {
       (value) => {
         if (value == null)
           {
-            print('logout 상태'),
+            print('logout'),
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const LoginFragment()))
           },
       },
     );
-    _bookmarkResponse = await getBookmark();
-    _bookmarkList = _bookmarkResponse.content;
+
+    String? accessToken;
+    accessToken = await getAccessToken();
+
+    final bookmarkResponse = await http.get(
+        Uri.parse(
+            'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080/v1/plane/bookmark'),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "access_token": accessToken ?? "",
+        });
+
+    if (bookmarkResponse.statusCode == 500) {
+      String? refreshToken;
+      refreshToken = await getRefreshToken();
+
+      if (refreshToken == null) {
+        print('refresh null');
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginFragment()));
+      }
+
+      final refreshResponse = await http.get(
+          Uri.parse(
+              'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080/v1/token/refresh'),
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "refresh_token": refreshToken!,
+          });
+
+      print('===========refreshResponse================');
+      print(refreshResponse.statusCode);
+      print(refreshResponse.headers);
+      print('=============access_token==============');
+      print(refreshResponse.headers['access_token']);
+      print('=============refresh_token==============');
+      print(refreshResponse.headers['refresh_token']);
+      print('=============refreshResponse==============');
+
+      if (refreshResponse.statusCode != 200) {
+        logout();
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginFragment()));
+      } else {
+        print('===========refreshSavedResponse================');
+
+        print(storage.read(key: 'refreshToken'));
+        print(storage.read(key: 'accessToken'));
+        savedRefreshToken(refreshResponse.headers['access_token']!,
+            refreshResponse.headers['refresh_token']!);
+        print('저장 후 토큰 바뀌었는지 확인');
+        print(storage.read(key: 'refreshToken'));
+        print(storage.read(key: 'accessToken'));
+        print('===========refreshSavedResponse================');
+
+        final newBookmarkResponse = await http.get(
+            Uri.parse(
+                'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080/v1/plane/bookmark'),
+            headers: {
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+              "access_token": accessToken ?? "",
+            });
+
+        _bookmarkResponse = BookmarkResponse.fromJson(
+            json.decode(utf8.decode(newBookmarkResponse.bodyBytes)));
+        _bookmarkList = _bookmarkResponse.content;
+      }
+    } else {
+      _bookmarkResponse = BookmarkResponse.fromJson(
+          json.decode(utf8.decode(bookmarkResponse.bodyBytes)));
+      _bookmarkList = _bookmarkResponse.content;
+    }
+
     setState(() {});
   }
 

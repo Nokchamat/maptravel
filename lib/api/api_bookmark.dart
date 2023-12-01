@@ -12,15 +12,15 @@ Future<BookmarkResponse> getBookmark() async {
   String? accessToken;
   accessToken = await getAccessToken();
 
-  final jsonResponse =
+  final response =
       await http.get(Uri.parse('$baseUrl/v1/plane/bookmark'), headers: {
     "Content-Type": "application/json",
     "Accept": "application/json",
     "access_token": accessToken ?? "",
   });
 
-  Map<String, dynamic> parsedJson =
-      json.decode(utf8.decode(jsonResponse.bodyBytes));
+  Map<String, dynamic> parsedResponse =
+      json.decode(utf8.decode(response.bodyBytes));
 
-  return BookmarkResponse.fromJson(parsedJson);
+  return BookmarkResponse.fromJson(parsedResponse);
 }

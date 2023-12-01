@@ -12,15 +12,10 @@ class _WriteFragmentState extends State<WriteFragment> {
   final TextEditingController _subjectController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   late int placeLength;
-  late String _subject;
-  late String _content;
 
   late List<Widget> placeWidgetList = []; // 추가된 PlaceWidget을 저장하는 리스트
-
   @override
   void initState() {
-    _subject = "";
-    _content = "";
     placeLength = 1;
     super.initState();
   }
@@ -103,8 +98,6 @@ class _WriteFragmentState extends State<WriteFragment> {
             ),
             ElevatedButton(
               onPressed: () {
-                String topic = _subjectController.text;
-                String content = _contentController.text;
               },
               child: const SizedBox(
                 width: double.infinity,
