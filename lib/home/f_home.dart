@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:maptravel/Home/w_search_widget.dart';
-import 'package:maptravel/vo/dummy.dart';
+import 'package:maptravel/api/api_home.dart';
+import 'package:maptravel/dto/vo_plane_list.dart';
 import 'package:maptravel/home/w_plane.dart';
-
-import '../vo/vo_plane.dart';
 
 class HomeFragment extends StatefulWidget {
   const HomeFragment({super.key});
@@ -13,11 +12,18 @@ class HomeFragment extends StatefulWidget {
 }
 
 class _HomeFragmentState extends State<HomeFragment> {
-  late final List<Plane> _planeList;
+  List<PlaneList> _planeList = [];
+  late PlaneListResponse _planeListResponse;
+
+  void waitAPI() async {
+    _planeListResponse = await getPlaneList();
+    _planeList = _planeListResponse.content;
+    setState(() {});
+  }
 
   @override
   void initState() {
-    _planeList = planeList;
+    waitAPI();
     super.initState();
   }
 
@@ -29,8 +35,9 @@ class _HomeFragmentState extends State<HomeFragment> {
         Expanded(
           child: SingleChildScrollView(
             child: Column(
-              children: _planeList.map((plane) => PlaneWidget(plane: plane)).toList()
-            ),
+                children: _planeList
+                    .map((planeList) => PlaneWidget(planeList: planeList))
+                    .toList()),
           ),
         ),
       ],

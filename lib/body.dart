@@ -8,7 +8,7 @@ import 'bookmark/f_bookmark.dart';
 class Body extends StatelessWidget {
   final int bottomBarIndex;
 
-  const Body({required this.bottomBarIndex, super.key});
+  const Body({this.bottomBarIndex = 1, super.key});
 
   @override
   Widget build(BuildContext context) {
