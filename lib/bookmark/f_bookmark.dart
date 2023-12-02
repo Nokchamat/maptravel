@@ -60,14 +60,14 @@ class _BookmarkFragment extends State<BookmarkFragment> {
             "refresh_token": refreshToken!,
           });
 
-      print('===========refreshResponse================');
+      print('===========BookmarkRefreshResponse================');
       print(refreshResponse.statusCode);
       print(refreshResponse.headers);
       print('=============access_token==============');
       print(refreshResponse.headers['access_token']);
       print('=============refresh_token==============');
       print(refreshResponse.headers['refresh_token']);
-      print('=============refreshResponse==============');
+      print('=============BookmarkRefreshResponse==============');
 
       if (refreshResponse.statusCode != 200) {
         logout();
@@ -76,13 +76,13 @@ class _BookmarkFragment extends State<BookmarkFragment> {
       } else {
         print('===========refreshSavedResponse================');
 
-        print(storage.read(key: 'refreshToken'));
-        print(storage.read(key: 'accessToken'));
+        storage.read(key: 'refreshToken').then((value) => print(value));
+        storage.read(key: 'accessToken').then((value) => print(value));
         savedRefreshToken(refreshResponse.headers['access_token']!,
             refreshResponse.headers['refresh_token']!);
         print('저장 후 토큰 바뀌었는지 확인');
-        print(storage.read(key: 'refreshToken'));
-        print(storage.read(key: 'accessToken'));
+        storage.read(key: 'refreshToken').then((value) => print(value));
+        storage.read(key: 'accessToken').then((value) => print(value));
         print('===========refreshSavedResponse================');
 
         final newBookmarkResponse = await http.get(
@@ -93,15 +93,26 @@ class _BookmarkFragment extends State<BookmarkFragment> {
               "Accept": "application/json",
               "access_token": accessToken ?? "",
             });
-
+        
         _bookmarkResponse = BookmarkResponse.fromJson(
             json.decode(utf8.decode(newBookmarkResponse.bodyBytes)));
+        print('============newBookmarkResponse=======================');
         _bookmarkList = _bookmarkResponse.content;
+        print(_bookmarkList[0].country);
+        print(_bookmarkList[0].city);
+        print(_bookmarkList[0].userNickname);
+        print('============newBookmarkResponse=======================');
       }
     } else {
       _bookmarkResponse = BookmarkResponse.fromJson(
           json.decode(utf8.decode(bookmarkResponse.bodyBytes)));
+
+      print('============BookmarkResponse=======================');
       _bookmarkList = _bookmarkResponse.content;
+      print(_bookmarkList[0].country);
+      print(_bookmarkList[0].city);
+      print(_bookmarkList[0].userNickname);
+      print('============BookmarkResponse=======================');
     }
 
     setState(() {});

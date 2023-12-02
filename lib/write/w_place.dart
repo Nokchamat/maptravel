@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:maptravel/service/image_picker_service.dart';
 import 'package:maptravel/write/w_place_image.dart';
+
+import '../alert_dialog/alert_dialog.dart';
 
 class PlaceWidget extends StatefulWidget {
   const PlaceWidget({super.key});
@@ -9,32 +13,57 @@ class PlaceWidget extends StatefulWidget {
 }
 
 class _PlaceWidgetState extends State<PlaceWidget> {
+  final picker = ImagePickerService();
+
   final TextEditingController _subjectController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  List<XFile> selectedImages = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: double.infinity,
-          height: 320,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Center(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(
-                    3,
-                    (index) => const PlaceImageWidget(),
-                  ),
-                ),
+        GestureDetector(
+          onTap: () async {
+            print('갤러리 클릭');
+            final images = await picker.pickImages();
+
+            if (images.length > 5) {
+              showAlertDialog(context, '사진은 최대 5장까지 입니다.');
+            } else {
+              setState(() {
+                selectedImages = images;
+              });
+            }
+
+          },
+          child: Container(
+            width: double.infinity,
+            height: 320,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Center(
+                child: selectedImages.isEmpty
+                    ? const Text(
+                        '사진을 선택해주세요.',
+                        style: TextStyle(color: Colors.white),
+                      )
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(
+                            selectedImages.length,
+                            (index) => PlaceImageWidget(
+                              image: selectedImages[index],
+                            ),
+                          ),
+                        ),
+                      ),
               ),
             ),
           ),

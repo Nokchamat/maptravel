@@ -91,13 +91,16 @@ class _WriteFragmentState extends State<WriteFragment> {
                 child: Column(
                   children: List.generate(
                     placeLength,
-                    (index) => PlaceWidget(),
+                    (index) => const PlaceWidget(),
                   ),
                 ),
               ),
             ),
             ElevatedButton(
               onPressed: () {
+                print('게시');
+
+
               },
               child: const SizedBox(
                 width: double.infinity,
