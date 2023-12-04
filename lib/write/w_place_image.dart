@@ -1,21 +1,36 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
 
-class PlaceImageWidget extends StatelessWidget {
-  const PlaceImageWidget({super.key});
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+class PlaceImageWidget extends StatefulWidget {
+  final XFile image;
+
+  const PlaceImageWidget({super.key, required this.image});
+
+  @override
+  State<PlaceImageWidget> createState() => _PlaceImageWidgetState();
+}
+
+class _PlaceImageWidgetState extends State<PlaceImageWidget> {
+  late XFile _image;
+
+  @override
+  void initState() {
+    super.initState();
+    _image = widget.image;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: SizedBox(
-        height: double.infinity,
-        width: 310,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image.network(
-            'https://images.unsplash.com/photo-1454391304352-2bf4678b1a7a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D',
-            fit: BoxFit.cover,
-          ),
+    return SizedBox(
+      height: double.infinity,
+      width: 310,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.file(
+          File(_image.path), // XFile을 File로 변환
+          fit: BoxFit.cover,
         ),
       ),
     );

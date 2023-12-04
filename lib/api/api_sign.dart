@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
 
 import '../sign/f_login.dart';
+import 'common.dart';
 
 class Token {
   final String accessToken;
@@ -13,9 +14,6 @@ class Token {
 
   Token(this.accessToken, this.refreshToken);
 }
-
-const String baseUrl =
-    'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080';
 
 Future<Token> signIn(email, password) async {
   var response = await http.post(

@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:maptravel/bookmark/w_bookmark.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
 import 'package:maptravel/dto/vo_bookmark.dart';
 import 'package:maptravel/sign/f_login.dart';
+
+import '../api/common.dart';
 
 class BookmarkFragment extends StatefulWidget {
   const BookmarkFragment({super.key});
@@ -29,19 +32,31 @@ class _BookmarkFragment extends State<BookmarkFragment> {
       },
     );
 
+    print('로그인 상태임');
+
     String? accessToken;
     accessToken = await getAccessToken();
+    print(accessToken);
+    http.Response bookmarkResponse;
 
-    final bookmarkResponse = await http.get(
-        Uri.parse(
-            'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080/v1/plane/bookmark'),
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "access_token": accessToken ?? "",
-        });
+    try {
+      bookmarkResponse =
+          await http.get(Uri.parse('$baseUrl/v1/plane/bookmark'), headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "access_token": accessToken ?? "",
+      });
 
-    if (bookmarkResponse.statusCode == 500) {
+      _bookmarkResponse = BookmarkResponse.fromJson(
+          json.decode(utf8.decode(bookmarkResponse.bodyBytes)));
+
+      print('============BookmarkResponse=======================');
+      _bookmarkList = _bookmarkResponse.content;
+      print(_bookmarkList[0].country);
+      print(_bookmarkList[0].city);
+      print(_bookmarkList[0].userNickname);
+      print('============BookmarkResponse=======================');
+    } catch (error) {
       String? refreshToken;
       refreshToken = await getRefreshToken();
 
@@ -51,23 +66,21 @@ class _BookmarkFragment extends State<BookmarkFragment> {
             MaterialPageRoute(builder: (context) => const LoginFragment()));
       }
 
-      final refreshResponse = await http.get(
-          Uri.parse(
-              'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080/v1/token/refresh'),
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "refresh_token": refreshToken!,
-          });
+      final refreshResponse =
+          await http.get(Uri.parse('$baseUrl/v1/token/refresh'), headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "refresh_token": refreshToken!,
+      });
 
-      print('===========refreshResponse================');
+      print('===========BookmarkRefreshResponse================');
       print(refreshResponse.statusCode);
       print(refreshResponse.headers);
       print('=============access_token==============');
       print(refreshResponse.headers['access_token']);
       print('=============refresh_token==============');
       print(refreshResponse.headers['refresh_token']);
-      print('=============refreshResponse==============');
+      print('=============BookmarkRefreshResponse==============');
 
       if (refreshResponse.statusCode != 200) {
         logout();
@@ -76,32 +89,31 @@ class _BookmarkFragment extends State<BookmarkFragment> {
       } else {
         print('===========refreshSavedResponse================');
 
-        print(storage.read(key: 'refreshToken'));
-        print(storage.read(key: 'accessToken'));
+        storage.read(key: 'refreshToken').then((value) => print(value));
+        storage.read(key: 'accessToken').then((value) => print(value));
         savedRefreshToken(refreshResponse.headers['access_token']!,
             refreshResponse.headers['refresh_token']!);
         print('저장 후 토큰 바뀌었는지 확인');
-        print(storage.read(key: 'refreshToken'));
-        print(storage.read(key: 'accessToken'));
+        storage.read(key: 'refreshToken').then((value) => print(value));
+        storage.read(key: 'accessToken').then((value) => print(value));
         print('===========refreshSavedResponse================');
 
-        final newBookmarkResponse = await http.get(
-            Uri.parse(
-                'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080/v1/plane/bookmark'),
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-              "access_token": accessToken ?? "",
-            });
+        final newBookmarkResponse =
+            await http.get(Uri.parse('$baseUrl/v1/plane/bookmark'), headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "access_token": accessToken ?? "",
+        });
 
         _bookmarkResponse = BookmarkResponse.fromJson(
             json.decode(utf8.decode(newBookmarkResponse.bodyBytes)));
+        print('============newBookmarkResponse=======================');
         _bookmarkList = _bookmarkResponse.content;
+        print(_bookmarkList[0].country);
+        print(_bookmarkList[0].city);
+        print(_bookmarkList[0].userNickname);
+        print('============newBookmarkResponse=======================');
       }
-    } else {
-      _bookmarkResponse = BookmarkResponse.fromJson(
-          json.decode(utf8.decode(bookmarkResponse.bodyBytes)));
-      _bookmarkList = _bookmarkResponse.content;
     }
 
     setState(() {});
@@ -123,63 +135,6 @@ class _BookmarkFragment extends State<BookmarkFragment> {
       children: [
         ..._bookmarkList.map((bookmark) => BookmarkWidget(bookmark: bookmark))
       ],
-    );
-  }
-}
-
-class BookmarkWidget extends StatelessWidget {
-  final Bookmark bookmark;
-
-  const BookmarkWidget({required this.bookmark, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.green.shade200,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              flex: 4,
-              child: SizedBox(
-                width: double.infinity,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    bookmark.thumbnailUrl,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Container(
-                  margin: const EdgeInsets.all(5),
-                  child: Text(bookmark.subject),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

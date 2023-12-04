@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:maptravel/api/api_sign.dart';
 import 'package:maptravel/main.dart';
 
+import '../alert_dialog/alert_dialog.dart';
+import '../api/common.dart';
 import '../common/secure_storage/secure_strage.dart';
 
 class LoginFragment extends StatefulWidget {
@@ -126,22 +128,4 @@ class _LoginFragmentState extends State<LoginFragment> {
   }
 }
 
-void showAlertDialog(BuildContext context, String message) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('알림'),
-        content: Text(message),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('확인'),
-          ),
-        ],
-      );
-    },
-  );
-}
+

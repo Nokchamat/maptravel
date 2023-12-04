@@ -6,7 +6,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   const MyApp({super.key});
 
   @override
@@ -16,15 +15,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: Colors.green,
-        textTheme: const TextTheme(
-          labelLarge: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18
-          ),
+        textTheme: TextTheme(
+          labelLarge: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          headlineLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: Theme.of(context).primaryColor)
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Theme.of(context).colorScheme.onPrimary,
+          fillColor: Theme
+              .of(context)
+              .colorScheme
+              .onPrimary,
           hintStyle: TextStyle(
             color: Colors.green[700],
           ),
@@ -35,9 +35,14 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('MapTravel'),
-          elevation: 4,
-          shadowColor: Theme.of(context).shadowColor,
+          title: Text(
+            'MapTravel',
+            style: Theme.of(context).textTheme.headlineLarge
+          ),
+          elevation: 1,
+          shadowColor: Theme
+              .of(context)
+              .shadowColor,
         ),
         body: const MainPage(),
       ),
