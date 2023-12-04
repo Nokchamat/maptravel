@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:maptravel/api/common.dart';
 import 'package:maptravel/common/constant/profile_constant.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
 
@@ -19,7 +20,7 @@ class _WriteScreenState extends State<ProfileFragment> {
   late User _user = new User(
     id: 1,
     nickname: 'nickname',
-    profileImageUrl: 'profileImageUrl',
+    profileImageUrl: '',
     followerCount: 1,
     isEmailVerify: false,
   );
@@ -39,14 +40,12 @@ class _WriteScreenState extends State<ProfileFragment> {
     String? accessToken;
     accessToken = await getAccessToken();
 
-    final profileResponse = await http.get(
-        Uri.parse(
-            'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080/v1/user/myprofile'),
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "access_token": accessToken ?? "",
-        });
+    final profileResponse =
+        await http.get(Uri.parse('$baseUrl/v1/user/myprofile'), headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "access_token": accessToken ?? "",
+    });
 
     if (profileResponse.statusCode == 500) {
       String? refreshToken;
@@ -58,14 +57,12 @@ class _WriteScreenState extends State<ProfileFragment> {
             MaterialPageRoute(builder: (context) => const LoginFragment()));
       }
 
-      final refreshResponse = await http.get(
-          Uri.parse(
-              'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080/v1/token/refresh'),
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "refresh_token": refreshToken!,
-          });
+      final refreshResponse =
+          await http.get(Uri.parse('$baseUrl/v1/token/refresh'), headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "refresh_token": refreshToken!,
+      });
 
       print('===========refreshResponse================');
       print(refreshResponse.statusCode);
@@ -92,14 +89,12 @@ class _WriteScreenState extends State<ProfileFragment> {
         print(storage.read(key: 'accessToken'));
         print('===========refreshSavedResponse================');
 
-        final newProfileResponse = await http.get(
-            Uri.parse(
-                'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080/v1/user/myprofile'),
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json",
-              "access_token": accessToken ?? "",
-            });
+        final newProfileResponse =
+            await http.get(Uri.parse('$baseUrl/v1/user/myprofile'), headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "access_token": accessToken ?? "",
+        });
 
         _user = User.fromJson(
             json.decode(utf8.decode(newProfileResponse.bodyBytes)));
@@ -131,15 +126,20 @@ class _WriteScreenState extends State<ProfileFragment> {
                 borderRadius:
                     BorderRadius.circular(ProfileConstant.profileImageRadius),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.network(
-                  _user.profileImageUrl,
-                  width: ProfileConstant.profileImageWidth,
-                  height: ProfileConstant.profileImageHeight,
-                  fit: BoxFit.cover,
-                ),
-              ),
+              child: _user.profileImageUrl.isEmpty
+                  ? const Icon(
+                      Icons.person,
+                      size: 200,
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.network(
+                        _user.profileImageUrl,
+                        width: ProfileConstant.profileImageWidth,
+                        height: ProfileConstant.profileImageHeight,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
             ),
           ),
           Container(

@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:maptravel/dto/vo_plane_list.dart';
 import 'package:http/http.dart' as http;
 
-final baseUrl =
-    'http://ec2-13-209-203-81.ap-northeast-2.compute.amazonaws.com:8080';
+import 'common.dart';
 
 Future<PlaneListResponse> getPlaneList() async {
   final jsonResponse = await http.get(Uri.parse('$baseUrl/v1/plane'));

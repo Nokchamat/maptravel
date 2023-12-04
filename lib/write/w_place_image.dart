@@ -23,17 +23,14 @@ class _PlaceImageWidgetState extends State<PlaceImageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: SizedBox(
-        height: double.infinity,
-        width: 310,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image.file(
-            File(_image.path), // XFile을 File로 변환
-            fit: BoxFit.cover,
-          ),
+    return SizedBox(
+      height: double.infinity,
+      width: 310,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.file(
+          File(_image.path), // XFile을 File로 변환
+          fit: BoxFit.cover,
         ),
       ),
     );
