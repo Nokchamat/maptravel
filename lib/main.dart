@@ -17,7 +17,8 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.green,
         textTheme: TextTheme(
           labelLarge: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          headlineLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: Theme.of(context).primaryColor)
+          headlineLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: Theme.of(context).primaryColor),
+          headlineSmall: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,

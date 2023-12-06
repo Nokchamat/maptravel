@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maptravel/dto/vo_plane_list.dart';
-import 'package:maptravel/s_plane_detail.dart';
+import 'package:maptravel/plane_detail/s_plane_detail.dart';
 
 class PlaneWidget extends StatelessWidget {
   final PlaneList planeList;
@@ -71,7 +71,7 @@ class PlaneWidget extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const PlaneDetailScreen()));
+                    builder: (context) => PlaneDetailScreen(planeId: planeList.planeId,)));
           },
           child: Image.network(
             planeList.thumbnailUrl,
@@ -82,11 +82,28 @@ class PlaneWidget extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-              child: Text(
-                planeList.subject,
-                style: Theme.of(context).textTheme.bodyLarge,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Flexible(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          planeList.subject,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        Text(
+                          planeList.content,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             Row(
