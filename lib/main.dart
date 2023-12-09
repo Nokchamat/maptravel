@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
 import 'package:maptravel/s_main_page.dart';
 
@@ -34,7 +34,6 @@ void refreshTokenPeriodically() async {
       //이동
     }
   }
-
 
   Timer.periodic(const Duration(minutes: 50), (Timer timer) async {
     print('[refreshTokenPeriodically] 토큰 갱신 실행 : ${DateTime.now()}');
@@ -89,6 +88,18 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                   fontSize: 20,
                   color: Colors.black)),
+          headlineMedium: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white,
+            shadows: [
+              Shadow(
+                blurRadius: 5.0,
+                color: Colors.black,
+                offset: Offset(1.0, 1.0),
+              )
+            ]
+          ),
           headlineSmall: const TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
           bodyMedium: const TextStyle(
@@ -97,6 +108,8 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.normal, fontSize: 14, color: Colors.black),
           labelSmall: const TextStyle(
               fontWeight: FontWeight.normal, fontSize: 13, color: Colors.black),
+          labelMedium: const TextStyle(
+              fontWeight: FontWeight.normal, fontSize: 16, color: Colors.black),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,

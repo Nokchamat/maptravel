@@ -25,7 +25,6 @@ class _HomeFragmentState extends State<HomeFragment> {
   }
 
   void addPlane() async {
-
     if (!_planeListResponse.last) {
       final PlaneListResponse response = await getPlaneList(
           (_planeListResponse.number + 1));
@@ -36,7 +35,6 @@ class _HomeFragmentState extends State<HomeFragment> {
     } else {
       showAlertDialog(context, '여행 계획의 마지막...');
     }
-
   }
 
   @override
@@ -50,13 +48,8 @@ class _HomeFragmentState extends State<HomeFragment> {
     // 스크롤 위치가 최하단인지 확인
     if (_scrollController.position.pixels ==
         _scrollController.position.maxScrollExtent) {
-      printEnd(); // 맨 아래에 도달했을 때 실행할 메서드
       addPlane();
     }
-  }
-
-  void printEnd() {
-    print('끝에 도달');
   }
 
   @override
@@ -68,9 +61,6 @@ class _HomeFragmentState extends State<HomeFragment> {
           child: SingleChildScrollView(
             controller: _scrollController,
             child: Column(
-              // children: _planeList
-              //     .map((planeList) => PlaneWidget(planeList: planeList))
-              //     .toList()),
               children: List.generate(_planeList.length,
                       (index) => PlaneWidget(planeList: _planeList[index])),
             ),
