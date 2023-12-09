@@ -17,7 +17,7 @@ class ProfileFragment extends StatefulWidget {
 }
 
 class _WriteScreenState extends State<ProfileFragment> {
-  late User _user = new User(
+  late User _user = User(
     id: 1,
     nickname: 'nickname',
     profileImageUrl: '',
@@ -144,7 +144,7 @@ class _WriteScreenState extends State<ProfileFragment> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            height: 60,
+            height: 50,
             width: double.infinity,
             decoration: BoxDecoration(
                 border: Border(
@@ -156,10 +156,7 @@ class _WriteScreenState extends State<ProfileFragment> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '내 정보',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  const Text('내 정보'),
                   IconButton(
                     onPressed: () {},
                     icon: const Icon(
@@ -173,7 +170,7 @@ class _WriteScreenState extends State<ProfileFragment> {
           ),
           Container(
             alignment: Alignment.centerLeft,
-            height: 60,
+            height: 50,
             width: double.infinity,
             decoration: BoxDecoration(
                 border: Border(
@@ -184,11 +181,9 @@ class _WriteScreenState extends State<ProfileFragment> {
               padding: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    '로그아웃',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  const Text('로그아웃'),
                   IconButton(
                     onPressed: () {
                       logout();

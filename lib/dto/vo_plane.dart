@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:maptravel/dto/vo_place.dart';
 
 class Plane {
@@ -12,22 +10,43 @@ class Plane {
   final String thumbnailUrl;
   final String userNickname;
   final String userProfileImageUrl;
-  final Bool isLikes;
-  final Bool isBookmark;
-  final List<Place> placeDtoList;
+  final bool isLikes;
+  final bool isBookmark;
+  final List<Place> placeList;
 
-  Plane(
-    this.id,
-    this.subject,
-    this.content,
-    this.country,
-    this.city,
-    this.viewCount,
-    this.thumbnailUrl,
-    this.userNickname,
-    this.userProfileImageUrl,
-    this.isLikes,
-    this.isBookmark,
-    this.placeDtoList,
-  );
+  Plane({
+    required this.id,
+    required this.subject,
+    required this.content,
+    required this.country,
+    required this.city,
+    required this.viewCount,
+    required this.thumbnailUrl,
+    required this.userNickname,
+    required this.userProfileImageUrl,
+    required this.isLikes,
+    required this.isBookmark,
+    required this.placeList,
+  });
+
+  factory Plane.fromJson(Map<String, dynamic> json) {
+    List<Place> placeList = (json['placeDtoList'] as List<dynamic>)
+        .map((jsonPlace) => Place.fromJson(jsonPlace))
+        .toList();
+
+    return Plane(
+      id: json['id'],
+      subject: json['subject'],
+      content: json['content'],
+      country: json['country'],
+      city: json['city'],
+      viewCount: json['viewCount'],
+      thumbnailUrl: json['thumbnailUrl'],
+      userNickname: json['userNickname'],
+      userProfileImageUrl: json['userProfileImageUrl'],
+      isLikes: json['isLikes'],
+      isBookmark: json['isBookmark'],
+      placeList: placeList,
+    );
+  }
 }
