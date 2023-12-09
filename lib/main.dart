@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:maptravel/s_main_page.dart';
 
 void main() {
@@ -13,21 +14,36 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.system,
       theme: ThemeData(
+        brightness: Brightness.light,
         useMaterial3: true,
         colorSchemeSeed: Colors.green,
         textTheme: TextTheme(
-          labelLarge: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          headlineLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: Theme.of(context).primaryColor),
-          headlineSmall: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+          labelLarge:
+              const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          titleLarge: GoogleFonts.outfit(textStyle: const TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+              color: Colors.black)),
+          headlineSmall: const TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+          bodyMedium: const TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+              color: Colors.black),
+          bodySmall: const TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+              color: Colors.black),
+          labelSmall: const TextStyle(
+              fontWeight: FontWeight.normal,
+              fontSize: 13,
+              color: Colors.black),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: Theme
-              .of(context)
-              .colorScheme
-              .onPrimary,
-          hintStyle: TextStyle(
-            color: Colors.green[700],
+          fillColor: Theme.of(context).colorScheme.onPrimary,
+          hintStyle: const TextStyle(
+            color: Colors.grey,
           ),
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -36,14 +52,15 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'MapTravel',
-            style: Theme.of(context).textTheme.headlineLarge
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                color: Colors.green),
           ),
           elevation: 1,
-          shadowColor: Theme
-              .of(context)
-              .shadowColor,
+          shadowColor: Theme.of(context).shadowColor,
         ),
         body: const MainPage(),
       ),

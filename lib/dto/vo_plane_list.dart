@@ -10,6 +10,7 @@ class PlaneList {
   final String userProfileImageUrl;
   final bool isLikes;
   final bool isBookmark;
+  final int likesCount;
 
   PlaneList({
     required this.planeId,
@@ -23,6 +24,7 @@ class PlaneList {
     required this.userProfileImageUrl,
     required this.isLikes,
     required this.isBookmark,
+    required this.likesCount,
   });
 
   factory PlaneList.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class PlaneList {
       userProfileImageUrl: json['userProfileImageUrl'],
       isLikes: json['isLikes'],
       isBookmark: json['isBookmark'],
+      likesCount: json['likesCount'],
     );
   }
 }

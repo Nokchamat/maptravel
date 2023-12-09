@@ -76,7 +76,7 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                     children: [
                       Text(
                         widget.plane.country,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 3),
@@ -87,7 +87,7 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                       ),
                       Text(
                         widget.plane.city,
-                        style: Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -231,6 +231,5 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
     );
   }
 
-  @override
   Size get preferredSize => Size.fromHeight(widget.appBar.preferredSize.height);
 }
