@@ -26,82 +26,34 @@ class _WriteScreenState extends State<ProfileFragment> {
   );
 
   void waitAPI() async {
-    getIsLogin().then(
-      (value) => {
-        if (value == null)
-          {
-            print('logout'),
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LoginFragment()))
-          },
-      },
-    );
+    String? isLogin = await getIsLogin();
 
-    String? accessToken;
-    accessToken = await getAccessToken();
-
-    final profileResponse =
-        await http.get(Uri.parse('$baseUrl/v1/user/myprofile'), headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "access_token": accessToken ?? "",
-    });
-
-    if (profileResponse.statusCode == 500) {
-      String? refreshToken;
-      refreshToken = await getRefreshToken();
-
-      if (refreshToken == null) {
-        print('refresh null');
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginFragment()));
-      }
-
-      final refreshResponse =
-          await http.get(Uri.parse('$baseUrl/v1/token/refresh'), headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-        "refresh_token": refreshToken!,
-      });
-
-      print('===========refreshResponse================');
-      print(refreshResponse.statusCode);
-      print(refreshResponse.headers);
-      print('=============access_token==============');
-      print(refreshResponse.headers['access_token']);
-      print('=============refresh_token==============');
-      print(refreshResponse.headers['refresh_token']);
-      print('=============refreshResponse==============');
-
-      if (refreshResponse.statusCode != 200) {
-        logout();
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginFragment()));
-      } else {
-        print('===========refreshSavedResponse================');
-
-        print(storage.read(key: 'refreshToken'));
-        print(storage.read(key: 'accessToken'));
-        savedRefreshToken(refreshResponse.headers['access_token']!,
-            refreshResponse.headers['refresh_token']!);
-        print('저장 후 토큰 바뀌었는지 확인');
-        print(storage.read(key: 'refreshToken'));
-        print(storage.read(key: 'accessToken'));
-        print('===========refreshSavedResponse================');
-
-        final newProfileResponse =
-            await http.get(Uri.parse('$baseUrl/v1/user/myprofile'), headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "access_token": accessToken ?? "",
-        });
-
-        _user = User.fromJson(
-            json.decode(utf8.decode(newProfileResponse.bodyBytes)));
-      }
+    if (isLogin == null) {
+      print('로그아웃 상태임 isLogin : $isLogin');
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const LoginFragment()));
     } else {
-      _user =
-          User.fromJson(json.decode(utf8.decode(profileResponse.bodyBytes)));
+      print('로그인 상태임');
+      String? accessToken;
+      accessToken = await getAccessToken();
+      if (accessToken != null) {
+        try {
+          http.Response response =
+          await http.get(Uri.parse('$baseUrl/v1/user/myprofile'), headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "access_token": accessToken,
+          });
+          _user = User.fromJson(
+              json.decode(utf8.decode(response.bodyBytes)));
+        } catch (error) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const LoginFragment()));
+        }
+      } else {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LoginFragment()));
+      }
     }
 
     setState(() {});
