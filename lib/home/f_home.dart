@@ -20,11 +20,7 @@ class _HomeFragmentState extends State<HomeFragment> {
   void waitAPI() async {
     _planeListResponse = await getPlaneList(0);
     _planeList = _planeListResponse.content;
-    print('waitAPI : ${_planeListResponse.number}');
 
-    for (PlaneList item in _planeList) {
-      print(item.planeId);
-    }
     setState(() {});
   }
 
@@ -37,8 +33,6 @@ class _HomeFragmentState extends State<HomeFragment> {
         _planeListResponse = response;
         _planeList += response.content;
       });
-
-      print('length : ${_planeList.length}');
     } else {
       showAlertDialog(context, '여행 계획의 마지막...');
     }

@@ -1,9 +1,73 @@
+import 'dart:async';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:maptravel/common/secure_storage/secure_strage.dart';
 import 'package:maptravel/s_main_page.dart';
+
+import 'api/common.dart';
+
+void refreshTokenPeriodically() async {
+  print('[refreshTokenPeriodically] 초기 토큰 갱신 : ${DateTime.now()}');
+  String? refreshToken = await getRefreshToken();
+  if (refreshToken != null) {
+    http.Response response = await http.get(
+      Uri.parse('$baseUrl/v1/token/refresh'),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "refresh_token": refreshToken,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print(
+          '[refreshTokenPeriodically] accessToken : ${response.headers['access_token']}');
+      print(
+          '[refreshTokenPeriodically] refreshToken : ${response.headers['refresh_token']}');
+      savedRefreshToken(
+        response.headers['access_token']!,
+        response.headers['refresh_token']!,
+      );
+    } else {
+      //이동
+    }
+  }
+
+
+  Timer.periodic(const Duration(minutes: 50), (Timer timer) async {
+    print('[refreshTokenPeriodically] 토큰 갱신 실행 : ${DateTime.now()}');
+
+    String? refreshToken = await getRefreshToken();
+    if (refreshToken != null) {
+      http.Response response = await http.get(
+        Uri.parse('$baseUrl/v1/token/refresh'),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "refresh_token": refreshToken,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print(
+            '[refreshTokenPeriodically] accessToken : ${response.headers['access_token']}');
+        print(
+            '[refreshTokenPeriodically] refreshToken : ${response.headers['refresh_token']}');
+        savedRefreshToken(
+          response.headers['access_token']!,
+          response.headers['refresh_token']!,
+        );
+      }
+    }
+    print('[refreshTokenPeriodically] 토큰 갱신 종료 : ${DateTime.now()}');
+  });
+}
 
 void main() {
   runApp(const MyApp());
+  refreshTokenPeriodically();
 }
 
 class MyApp extends StatelessWidget {
@@ -20,24 +84,19 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           labelLarge:
               const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          titleLarge: GoogleFonts.outfit(textStyle: const TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 20,
-              color: Colors.black)),
+          titleLarge: GoogleFonts.outfit(
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                  color: Colors.black)),
           headlineSmall: const TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
           bodyMedium: const TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 20,
-              color: Colors.black),
+              fontWeight: FontWeight.normal, fontSize: 20, color: Colors.black),
           bodySmall: const TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 14,
-              color: Colors.black),
+              fontWeight: FontWeight.normal, fontSize: 14, color: Colors.black),
           labelSmall: const TextStyle(
-              fontWeight: FontWeight.normal,
-              fontSize: 13,
-              color: Colors.black),
+              fontWeight: FontWeight.normal, fontSize: 13, color: Colors.black),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
@@ -55,9 +114,7 @@ class MyApp extends StatelessWidget {
           title: const Text(
             'MapTravel',
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 30,
-                color: Colors.green),
+                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.green),
           ),
           elevation: 1,
           shadowColor: Theme.of(context).shadowColor,
