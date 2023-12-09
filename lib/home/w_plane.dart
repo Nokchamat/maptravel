@@ -197,6 +197,7 @@ class _PlaneWidgetState extends State<PlaneWidget> {
                                   ? const Icon(
                                       Icons.favorite,
                                       size: 30,
+                                      color: Colors.red,
                                     )
                                   : const Icon(
                                       Icons.favorite_outline,
@@ -279,6 +280,7 @@ class _PlaneWidgetState extends State<PlaneWidget> {
                           ? const Icon(
                               Icons.bookmark,
                               size: 30,
+                              color: Colors.green,
                             )
                           : const Icon(
                               Icons.bookmark_border_outlined,

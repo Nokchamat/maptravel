@@ -10,8 +10,6 @@ Future<PlaneListResponse> getPlaneList(int page) async {
   String? accessToken;
   accessToken = await getAccessToken();
 
-  print('addAPI Page! : $page');
-
   final jsonResponse = await http.get(Uri.parse(
       '$baseUrl/v1/plane?size=5&page=$page'),
       headers: {
