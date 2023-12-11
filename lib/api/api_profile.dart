@@ -22,3 +22,29 @@ Future<User> getProfile(BuildContext context) async {
 
   return User.fromJson(parsedJson);
 }
+
+Future<http.StreamedResponse> updateNickname(nickname) async {
+  String? accessToken;
+  accessToken = await getAccessToken();
+
+  var formData =
+      http.MultipartRequest('PUT', Uri.parse('$baseUrl/v1/user/nickname'));
+  formData.fields.addAll({'nickname': nickname});
+  formData.headers['access_token'] = accessToken!;
+
+  return await formData.send();
+}
+
+Future<http.StreamedResponse> updateProfile(profileImage) async {
+  String? accessToken;
+  accessToken = await getAccessToken();
+
+  var formData =
+      http.MultipartRequest('PUT', Uri.parse('$baseUrl/v1/user/profileimage'));
+  formData.files.add(
+      await http.MultipartFile.fromPath('profileImage', profileImage!.path));
+
+  formData.headers['access_token'] = accessToken!;
+
+  return await formData.send();
+}
