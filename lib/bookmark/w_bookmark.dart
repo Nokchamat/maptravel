@@ -69,7 +69,7 @@ class BookmarkWidget extends StatelessWidget {
                 }
               },
               icon: const Icon(
-                Icons.bookmark,
+                Icons.bookmark_remove,
                 size: 30,
                 color: Colors.white,
                 shadows: [
