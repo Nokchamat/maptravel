@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:maptravel/api/common.dart';
 import 'package:maptravel/common/constant/profile_constant.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
+import 'package:maptravel/main.dart';
 import 'package:maptravel/profile/s_update_profile.dart';
 
 import '../dto/vo_user.dart';
@@ -135,32 +136,28 @@ class _WriteScreenState extends State<ProfileFragment> {
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.centerLeft,
-            height: 50,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                border: Border(
-              top: BorderSide(color: Colors.grey.shade200),
-              bottom: BorderSide(color: Colors.grey.shade200),
-            )),
+          GestureDetector(
+            onTap: () {
+              logout();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const MyApp()),
+                (route) => false,
+              );
+            },
             child: Container(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text('로그아웃'),
-                  IconButton(
-                    onPressed: () {
-                      logout();
-                    },
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down,
-                      size: 30,
-                    ),
-                  ),
-                ],
+              alignment: Alignment.centerLeft,
+              height: 50,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Colors.grey.shade200),
+                  bottom: BorderSide(color: Colors.grey.shade200),
+                ),
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: const Text('로그아웃'),
               ),
             ),
           ),
