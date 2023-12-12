@@ -27,7 +27,7 @@ class _BookmarkFragment extends State<BookmarkFragment> {
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const SignScreen()));
     } else {
-      print('로그인 상태임');
+      print('로그인 상태임 : $isLogin');
       String? accessToken;
       accessToken = await getAccessToken();
       if (accessToken != null) {
@@ -35,6 +35,7 @@ class _BookmarkFragment extends State<BookmarkFragment> {
           _bookmarkResponse = await getBookmark(0);
           _bookmarkList = _bookmarkResponse.content;
         } catch (error) {
+          print('error : $error');
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const SignScreen()));
         }
