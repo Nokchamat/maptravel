@@ -107,12 +107,17 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: selectedImage == null
-                            ? Image.network(
-                                widget.user.profileImageUrl,
-                                width: ProfileConstant.profileImageWidth,
-                                height: ProfileConstant.profileImageHeight,
-                                fit: BoxFit.cover,
-                              )
+                            ? widget.user.profileImageUrl.isEmpty
+                                ? const Icon(
+                                    Icons.person,
+                                    size: 150,
+                                  )
+                                : Image.network(
+                                    widget.user.profileImageUrl,
+                                    width: ProfileConstant.profileImageWidth,
+                                    height: ProfileConstant.profileImageHeight,
+                                    fit: BoxFit.cover,
+                                  )
                             : Image.file(
                                 File(selectedImage!.path),
                                 width: ProfileConstant.profileImageWidth,

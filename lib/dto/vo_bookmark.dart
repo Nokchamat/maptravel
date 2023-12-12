@@ -7,8 +7,6 @@ class Bookmark {
   final String city;
   final String thumbnailUrl;
   final int viewCount;
-  final String userNickname;
-  final String userProfileImageUrl;
 
   Bookmark({
     required this.id,
@@ -19,8 +17,6 @@ class Bookmark {
     required this.city,
     required this.thumbnailUrl,
     required this.viewCount,
-    required this.userNickname,
-    required this.userProfileImageUrl,
   });
 
   factory Bookmark.fromJson(Map<String, dynamic> json) {
@@ -33,8 +29,6 @@ class Bookmark {
       city: json['city'],
       thumbnailUrl: json['thumbnailUrl'],
       viewCount: json['viewCount'],
-      userNickname: json['userNickname'],
-      userProfileImageUrl: json['userProfileImageUrl'],
     );
   }
 }

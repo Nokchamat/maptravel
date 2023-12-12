@@ -4,7 +4,7 @@ import 'package:maptravel/api/common.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
 
 import '../dto/vo_plane.dart';
-import '../sign/f_login.dart';
+import '../sign/s_sign.dart';
 
 class PlaneDetailAppBarWidget extends StatefulWidget
     implements PreferredSizeWidget {
@@ -110,7 +110,7 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const LoginFragment()))
+                                        const SignScreen()))
                           }
                         else
                           {print('null 아님'), accessToken = value}
@@ -172,7 +172,7 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const LoginFragment()))
+                                        const SignScreen()))
                           }
                         else
                           {accessToken = value}

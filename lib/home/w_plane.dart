@@ -5,7 +5,7 @@ import 'package:maptravel/plane_detail/s_plane_detail.dart';
 
 import '../api/common.dart';
 import '../common/secure_storage/secure_strage.dart';
-import '../sign/f_login.dart';
+import '../sign/s_sign.dart';
 
 class PlaneWidget extends StatefulWidget {
   final PlaneList planeList;
@@ -151,7 +151,7 @@ class _PlaneWidgetState extends State<PlaneWidget> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      const LoginFragment()))
+                                                      const SignScreen()))
                                         }
                                       else
                                         {print('null 아님'), accessToken = value}
@@ -234,7 +234,7 @@ class _PlaneWidgetState extends State<PlaneWidget> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const LoginFragment()))
+                                              const SignScreen()))
                                 }
                               else
                                 {accessToken = value}

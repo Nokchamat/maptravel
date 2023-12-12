@@ -4,7 +4,7 @@ import 'package:maptravel/api/api_bookmark.dart';
 
 import '../dto/vo_bookmark.dart';
 import '../plane_detail/s_plane_detail.dart';
-import '../sign/f_login.dart';
+import '../sign/s_sign.dart';
 
 class BookmarkWidget extends StatelessWidget {
   final Bookmark bookmark;
@@ -60,7 +60,7 @@ class BookmarkWidget extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const LoginFragment())),
+                            builder: (context) => const SignScreen())),
                   },
                 );
 
