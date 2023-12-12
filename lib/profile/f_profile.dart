@@ -9,7 +9,7 @@ import 'package:maptravel/main.dart';
 import 'package:maptravel/profile/s_update_profile.dart';
 
 import '../dto/vo_user.dart';
-import '../sign/f_login.dart';
+import '../sign/s_sign.dart';
 
 class ProfileFragment extends StatefulWidget {
   const ProfileFragment({super.key});
@@ -28,7 +28,7 @@ class _WriteScreenState extends State<ProfileFragment> {
     if (isLogin == null) {
       print('로그아웃 상태임 isLogin : $isLogin');
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const LoginFragment()));
+          MaterialPageRoute(builder: (context) => const SignScreen()));
     } else {
       print('로그인 상태임');
       String? accessToken;
@@ -44,11 +44,11 @@ class _WriteScreenState extends State<ProfileFragment> {
           _user = User.fromJson(json.decode(utf8.decode(response.bodyBytes)));
         } catch (error) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginFragment()));
+              MaterialPageRoute(builder: (context) => const SignScreen()));
         }
       } else {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginFragment()));
+            MaterialPageRoute(builder: (context) => const SignScreen()));
       }
     }
 
@@ -96,12 +96,17 @@ class _WriteScreenState extends State<ProfileFragment> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
-                    child: Image.network(
-                      _user.profileImageUrl,
-                      width: ProfileConstant.profileImageWidth,
-                      height: ProfileConstant.profileImageHeight,
-                      fit: BoxFit.cover,
-                    ),
+                    child: _user.profileImageUrl.isEmpty
+                        ? const Icon(
+                            Icons.person,
+                            size: 150,
+                          )
+                        : Image.network(
+                            _user.profileImageUrl,
+                            width: ProfileConstant.profileImageWidth,
+                            height: ProfileConstant.profileImageHeight,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
               ],

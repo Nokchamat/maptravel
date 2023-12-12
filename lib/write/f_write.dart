@@ -11,7 +11,7 @@ import '../alert_dialog/alert_dialog.dart';
 import '../api/common.dart';
 import '../common/secure_storage/secure_strage.dart';
 import '../service/image_picker_service.dart';
-import '../sign/f_login.dart';
+import '../sign/s_sign.dart';
 
 class WriteFragment extends StatefulWidget {
   const WriteFragment({super.key});
@@ -35,7 +35,7 @@ class _WriteFragmentState extends State<WriteFragment> {
           {
             print('logout'),
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LoginFragment()))
+                MaterialPageRoute(builder: (context) => const SignScreen()))
           },
       },
     );

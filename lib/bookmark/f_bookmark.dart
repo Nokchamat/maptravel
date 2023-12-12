@@ -3,7 +3,7 @@ import 'package:maptravel/api/api_bookmark.dart';
 import 'package:maptravel/bookmark/w_bookmark.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
 import 'package:maptravel/dto/vo_bookmark.dart';
-import 'package:maptravel/sign/f_login.dart';
+import 'package:maptravel/sign/s_sign.dart';
 
 import '../alert_dialog/alert_dialog.dart';
 
@@ -25,7 +25,7 @@ class _BookmarkFragment extends State<BookmarkFragment> {
     if (isLogin == null) {
       print('로그아웃 상태임 isLogin : $isLogin');
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const LoginFragment()));
+          MaterialPageRoute(builder: (context) => const SignScreen()));
     } else {
       print('로그인 상태임');
       String? accessToken;
@@ -36,11 +36,11 @@ class _BookmarkFragment extends State<BookmarkFragment> {
           _bookmarkList = _bookmarkResponse.content;
         } catch (error) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginFragment()));
+              MaterialPageRoute(builder: (context) => const SignScreen()));
         }
       } else {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const LoginFragment()));
+            MaterialPageRoute(builder: (context) => const SignScreen()));
       }
     }
 

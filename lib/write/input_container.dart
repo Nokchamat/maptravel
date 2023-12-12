@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 
-class InputContainer extends StatelessWidget {
+class InputContainer extends StatefulWidget {
   final TextEditingController textController;
   final String hintText;
   final int maxLines;
+  bool obscureText;
 
-  const InputContainer({
+  InputContainer({
     super.key,
+    this.obscureText = false,
     required this.textController,
     required this.hintText,
     required this.maxLines,
   });
 
+  @override
+  State<InputContainer> createState() => _InputContainerState();
+}
+
+class _InputContainerState extends State<InputContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,11 +32,12 @@ class InputContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: TextField(
-          controller: textController,
-          maxLines: maxLines,
+          obscureText: widget.obscureText,
+          controller: widget.textController,
+          maxLines: widget.maxLines,
           decoration: InputDecoration(
             border: InputBorder.none,
-            hintText: hintText,
+            hintText: widget.hintText,
           ),
         ),
       ),

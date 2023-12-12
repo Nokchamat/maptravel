@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
 
-import '../sign/f_login.dart';
+import '../sign/s_sign.dart';
 import 'common.dart';
 
 class Token {
@@ -56,7 +56,7 @@ Future<Token?> refreshToken(BuildContext context) async {
     print('=========200 아님=========');
     
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const LoginFragment()));
+        MaterialPageRoute(builder: (context) => const SignScreen()));
   } else {
     print('=========token=========');
     print(response.headers);
