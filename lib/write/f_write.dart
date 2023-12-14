@@ -139,7 +139,7 @@ class _WriteFragmentState extends State<WriteFragment> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: SingleChildScrollView(
         child: Column(
           key: GlobalKey(),
@@ -177,7 +177,7 @@ class _WriteFragmentState extends State<WriteFragment> {
                 ),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             InputContainer(
               textController: _countryController,
               hintText: '나라 이름을 입력해주세요.',

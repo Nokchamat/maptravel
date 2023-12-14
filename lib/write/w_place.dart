@@ -15,7 +15,6 @@ class PlaceWidget extends StatefulWidget {
   PlaceWidget({super.key});
 
   CreatePlaceForm getData() {
-
     return CreatePlaceForm(
       subject: subjectController.text,
       content: contentController.text,
@@ -119,6 +118,16 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                 hintText: '주소를 입력해주세요.',
               ),
             ),
+          ),
+        ),
+        IconButton(
+          onPressed: () {
+            print('검색 클릭 : ${widget.addressController.text}');
+
+          },
+          icon: const Icon(
+            Icons.search,
+            size: 30,
           ),
         ),
         const SizedBox(height: 16.0),
