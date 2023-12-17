@@ -15,7 +15,6 @@ class PlaceWidget extends StatefulWidget {
   PlaceWidget({super.key});
 
   CreatePlaceForm getData() {
-
     return CreatePlaceForm(
       subject: subjectController.text,
       content: contentController.text,
@@ -112,11 +111,17 @@ class _PlaceWidgetState extends State<PlaceWidget> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: TextField(
-              controller: widget.addressController,
-              maxLines: 1,
-              decoration: const InputDecoration(
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                hintText: '주소를 검색해주세요.',
                 border: InputBorder.none,
-                hintText: '주소를 입력해주세요.',
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.search),
+                  ),
+                ),
               ),
             ),
           ),

@@ -44,12 +44,17 @@ class _PlaneWidgetState extends State<PlaneWidget> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        widget.planeList.userProfileImageUrl,
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.cover,
-                      ),
+                      child: widget.planeList.userProfileImageUrl.isEmpty
+                          ? const Icon(
+                              Icons.person,
+                              size: 40,
+                            )
+                          : Image.network(
+                              widget.planeList.userProfileImageUrl,
+                              width: 40,
+                              height: 40,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                 ),

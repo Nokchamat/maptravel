@@ -33,8 +33,8 @@ Future<Token> signIn(email, password) async {
 Future<Token?> refreshToken(BuildContext context) async {
   String? refreshToken;
   await getRefreshToken()
-  .catchError((onError) => {
-    print(onError),
+  .catchError((onError) {
+    print(onError);
   })
   .then((value) => {
     print('=========value========='),

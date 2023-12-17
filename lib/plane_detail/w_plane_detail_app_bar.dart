@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:maptravel/api/common.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
+import 'package:maptravel/plane_detail/map/s_map.dart';
 
 import '../dto/vo_plane.dart';
 import '../sign/s_sign.dart';
@@ -98,6 +99,13 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
           Row(
             children: [
               IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MapScreen()));
+                },
+                icon: const Icon(Icons.map),
+              ),
+              IconButton(
                 onPressed: () async {
                   print('좋아요 누름');
 
@@ -109,8 +117,7 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SignScreen()))
+                                    builder: (context) => const SignScreen()))
                           }
                         else
                           {print('null 아님'), accessToken = value}
@@ -171,8 +178,7 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SignScreen()))
+                                    builder: (context) => const SignScreen()))
                           }
                         else
                           {accessToken = value}
