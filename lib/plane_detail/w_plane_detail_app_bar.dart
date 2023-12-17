@@ -100,10 +100,8 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MapScreen()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MapScreen()));
                 },
                 icon: const Icon(Icons.map),
               ),

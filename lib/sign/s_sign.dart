@@ -169,8 +169,13 @@ class _SignScreenState extends State<SignScreen> {
                             response.headers['access_token']!,
                             response.headers['refresh_token']!,
                           ));
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => MyApp()));
+
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MyApp()),
+                            (route) => false,
+                          );
                         } else {
                           // 로그인 실패 시 알럿 창 띄우기
                           print('로그인 실패');

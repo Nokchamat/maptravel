@@ -39,6 +39,8 @@ class _WriteFragmentState extends State<WriteFragment> {
           },
       },
     );
+
+    placeWidgetList.add(PlaceWidget());
   }
 
   void validate() {
