@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:maptravel/dto/vo_create_place_form.dart';
 import 'package:maptravel/main.dart';
-import 'package:maptravel/write/input_container.dart';
 import 'package:maptravel/write/w_place.dart';
 import 'package:maptravel/write/w_place_image.dart';
+import 'package:maptravel/write/w_small_button.dart';
 
 import '../alert_dialog/alert_dialog.dart';
 import '../api/common.dart';
@@ -25,8 +25,11 @@ class _WriteFragmentState extends State<WriteFragment> {
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
+  final PageController _pageController = PageController();
+  bool isPlanePage = true;
   final picker = ImagePickerService();
   XFile? selectedImage;
+  int currentIndex = 1;
 
   void waitAPI() async {
     getIsLogin().then(
@@ -140,73 +143,126 @@ class _WriteFragmentState extends State<WriteFragment> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: SingleChildScrollView(
-        child: Column(
-          key: GlobalKey(),
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('여행 등록하기', style: Theme.of(context).textTheme.labelLarge),
-            const SizedBox(height: 8),
-            GestureDetector(
-              onTap: () async {
-                print('갤러리 클릭');
-                final image = await picker.pickImage();
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(45.0), // 높이 조정
+        child: AppBar(
+          title: isPlanePage ? const Text('여행 등록하기') : const Text('장소 등록하기'),
+          surfaceTintColor: Colors.white,
+          shadowColor: Colors.green[100],
+          leading: isPlanePage
+              ? null
+              : GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isPlanePage = true;
+                    });
+                  },
+                  child: const SmallButtonWidget(buttonText: '이전'),
+                ),
+          actions: isPlanePage
+              ? [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isPlanePage = false;
+                      });
+                    },
+                    child: const SmallButtonWidget(buttonText: '다음'),
+                  )
+                ]
+              : [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        getData();
+                      });
+                    },
+                    child: const SmallButtonWidget(buttonText: '게시'),
+                  )
+                ],
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1.0), // Divider의 높이
+            child: Divider(
+              height: 1,
+              color: Colors.grey, // Divider 색상
+            ),
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: isPlanePage ? writePlaneWidget() : writePlaceWidget(),
+      ),
+    );
+  }
 
-                setState(() {
-                  selectedImage = image;
-                });
-              },
-              child: Container(
-                key: UniqueKey(),
-                width: double.infinity,
-                height: 320,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Center(
-                    child: selectedImage == null
-                        ? const Text(
-                            '썸내일을 선택해주세요.',
-                            style: TextStyle(color: Colors.white),
-                          )
-                        : PlaceImageWidget(image: selectedImage!),
-                  ),
-                ),
-              ),
+  Widget writePlaneWidget() {
+    return Column(
+      key: GlobalKey(),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GestureDetector(
+          onTap: () async {
+            print('갤러리 클릭');
+            final image = await picker.pickImage();
+
+            setState(() {
+              selectedImage = image;
+            });
+          },
+          child: Container(
+            color: Colors.grey[200],
+            key: UniqueKey(),
+            width: double.infinity,
+            height: 320,
+            child: Center(
+              child: selectedImage == null
+                  ? Icon(
+                      Icons.add_a_photo,
+                      size: 120,
+                      color: Colors.grey[400],
+                    )
+                  : PlaceImageWidget(image: selectedImage!),
             ),
-            const SizedBox(height: 16),
-            InputContainer(
-              textController: _countryController,
-              hintText: '나라 이름을 입력해주세요.',
-              maxLines: 1,
-            ),
-            const SizedBox(height: 16.0),
-            InputContainer(
-              textController: _cityController,
-              hintText: '도시 이름을 입력해주세요.',
-              maxLines: 1,
-            ),
-            const SizedBox(height: 16.0),
-            InputContainer(
-              textController: _subjectController,
-              hintText: '제목을 입력해주세요.',
-              maxLines: 1,
-            ),
-            const SizedBox(height: 16.0),
-            InputContainer(
-              textController: _contentController,
-              hintText: '내용을 입력해주세요.',
-              maxLines: 8,
-            ),
-            const SizedBox(height: 16.0),
+          ),
+        ),
+        TextField(
+          controller: _subjectController,
+          maxLines: 1,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            hintText: '제목을 입력해주세요.',
+          ),
+        ),
+        Container(
+          color: Colors.grey.shade300,
+          height: 1,
+        ),
+        TextField(
+          controller: _subjectController,
+          maxLines: 8,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            hintText: '내용을 입력해주세요.',
+          ),
+        ),
+        Container(
+          color: Colors.grey.shade300,
+          height: 1,
+        ),
+        const SizedBox(height: 16.0),
+      ],
+    );
+  }
+
+  Widget writePlaceWidget() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
             Row(
               children: [
-                Text('장소 등록하기', style: Theme.of(context).textTheme.labelLarge),
                 IconButton(
                   onPressed: () {
                     setState(() {
@@ -217,30 +273,76 @@ class _WriteFragmentState extends State<WriteFragment> {
                     Icons.add_circle_outline,
                   ),
                 ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      if (placeWidgetList.length > 1) {
+                        placeWidgetList.remove(
+                            placeWidgetList[placeWidgetList.length - 1]);
+                      }
+                    });
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      setState(() {
+                        currentIndex = _pageController.page!.toInt() + 1;
+                      });
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.remove_circle_outline,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () async {
+                    await _pageController.animateToPage(
+                      (_pageController.page?.toInt())! - 1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+
+                    setState(() {
+                      currentIndex = _pageController.page!.toInt() + 1;
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.chevron_left,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () async {
+                    await _pageController.animateToPage(
+                      (_pageController.page?.toInt())! + 1,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+
+                    setState(() {
+                      currentIndex = _pageController.page!.toInt() + 1;
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.chevron_right,
+                  ),
+                ),
               ],
             ),
-            Center(
-              child: SingleChildScrollView(
-                child: Column(children: placeWidgetList),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                print('게시');
-                getData();
-                // Navigator.push(context,
-                //     MaterialPageRoute(builder: (context) => const MyApp()));
-              },
-              child: const SizedBox(
-                width: double.infinity,
-                child: Center(
-                  child: Text('게시'),
-                ),
-              ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Text('$currentIndex/${placeWidgetList.length}'),
             ),
           ],
         ),
-      ),
+        SizedBox(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height,
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: placeWidgetList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return placeWidgetList[index];
+            },
+          ),
+        ),
+      ],
     );
   }
 }

@@ -49,19 +49,17 @@ class _PlaceWidgetState extends State<PlaceWidget> {
           },
           child: Container(
             key: UniqueKey(),
+            color: Colors.grey[200],
             width: double.infinity,
             height: 320,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(8),
-            ),
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Center(
                 child: widget.selectedImages.isEmpty
-                    ? const Text(
-                        '사진을 선택해주세요.',
-                        style: TextStyle(color: Colors.white),
+                    ? Icon(
+                        Icons.add_a_photo,
+                        size: 120,
+                        color: Colors.grey[400],
                       )
                     : SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -78,76 +76,49 @@ class _PlaceWidgetState extends State<PlaceWidget> {
             ),
           ),
         ),
-        const SizedBox(height: 16),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black,
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
+        TextField(
+          controller: widget.subjectController,
+          maxLines: 1,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            hintText: '제목을 입력해주세요.',
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: TextField(
-              controller: widget.subjectController,
-              maxLines: 1,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: '제목을 입력해주세요.',
+        ),
+        Container(
+          color: Colors.grey.shade300,
+          height: 1,
+        ),
+        TextField(
+          controller: widget.addressController,
+          maxLines: 1,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: '주소를 입력해주세요.',
+            suffixIcon: Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.search),
               ),
             ),
           ),
         ),
-        const SizedBox(height: 16.0),
         Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black,
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: TextField(
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                hintText: '주소를 검색해주세요.',
-                border: InputBorder.none,
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 12),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.search),
-                  ),
-                ),
-              ),
-            ),
+          color: Colors.grey.shade300,
+          height: 1,
+        ),
+        TextField(
+          controller: widget.contentController,
+          maxLines: 5,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            hintText: '내용을 입력해주세요.',
           ),
         ),
-        const SizedBox(height: 16.0),
         Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black,
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: TextField(
-              controller: widget.contentController,
-              maxLines: 5,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
-                hintText: '내용을 입력해주세요.',
-              ),
-            ),
-          ),
+          color: Colors.grey.shade300,
+          height: 1,
         ),
-        const SizedBox(height: 32.0),
       ],
     );
   }
