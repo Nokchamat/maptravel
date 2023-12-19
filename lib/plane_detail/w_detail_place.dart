@@ -38,30 +38,22 @@ class DetailPlaceWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        // const Icon(Icons.title),
-                        Text(
-                          place.subject,
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                      ],
+                    Text(
+                      place.subject,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    Row(
-                      children: [
-                        // const Icon(Icons.description),
-                        Text(
-                          place.content,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ],
+                    Text(
+                      place.content,
+                      style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     Row(
                       children: [
                         const Icon(Icons.place),
-                        Text(
-                          place.address,
-                          style: Theme.of(context).textTheme.bodyLarge,
+                        Expanded(
+                          child: Text(
+                            place.address,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
                         ),
                       ],
                     ),

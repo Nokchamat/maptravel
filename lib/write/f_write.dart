@@ -43,7 +43,10 @@ class _WriteFragmentState extends State<WriteFragment> {
       },
     );
 
-    placeWidgetList.add(PlaceWidget());
+    placeWidgetList.add(PlaceWidget(
+      countryController: _countryController,
+      cityController: _cityController,
+    ));
   }
 
   void validate() {
@@ -95,8 +98,7 @@ class _WriteFragmentState extends State<WriteFragment> {
             createPlaceForm.content.isEmpty ||
             createPlaceForm.address.isEmpty ||
             createPlaceForm.pictureList.isEmpty) {
-          showAlertDialog(context, '사진이나 내용을 확인해주세요.');
-
+          showAlertDialog(context, '${i + 1}번째 장소의 사진이나 내용을 확인해주세요.');
           return;
         }
 
@@ -115,6 +117,7 @@ class _WriteFragmentState extends State<WriteFragment> {
 
     try {
       // 요청 보내기
+      print('용량 : ${formData.contentLength}');
       http.StreamedResponse response = await formData.send();
 
       if (response.statusCode == 200) {
@@ -217,10 +220,24 @@ class _WriteFragmentState extends State<WriteFragment> {
             height: 320,
             child: Center(
               child: selectedImage == null
-                  ? Icon(
-                      Icons.add_a_photo,
-                      size: 120,
-                      color: Colors.grey[400],
+                  ? Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Icon(
+                          Icons.add_a_photo,
+                          size: 120,
+                          color: Colors.grey[400],
+                        ),
+                        const Positioned(
+                          child: Text(
+                            '썸내일을 선택해주세요.',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
                     )
                   : PlaceImageWidget(image: selectedImage!),
             ),
@@ -239,7 +256,7 @@ class _WriteFragmentState extends State<WriteFragment> {
           height: 1,
         ),
         TextField(
-          controller: _subjectController,
+          controller: _contentController,
           maxLines: 8,
           decoration: const InputDecoration(
             border: InputBorder.none,
@@ -266,7 +283,10 @@ class _WriteFragmentState extends State<WriteFragment> {
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      placeWidgetList.add(PlaceWidget());
+                      placeWidgetList.add(PlaceWidget(
+                        countryController: _countryController,
+                        cityController: _cityController,
+                      ));
                     });
                   },
                   icon: const Icon(
