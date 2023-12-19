@@ -122,18 +122,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'MapTravel',
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.green),
-          ),
-          elevation: 1,
-          shadowColor: Theme.of(context).shadowColor,
-        ),
-        body: const MainPage(),
-      ),
+      home: const MainPage(),
     );
   }
 }
