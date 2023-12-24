@@ -31,7 +31,7 @@ void refreshTokenPeriodically() async {
         response.headers['refresh_token']!,
       );
     } else {
-      //이동
+      logout();
     }
   }
 
@@ -58,6 +58,11 @@ void refreshTokenPeriodically() async {
           response.headers['access_token']!,
           response.headers['refresh_token']!,
         );
+
+        print('[refreshTokenPeriodically] 토큰 갱신 성공 : ${DateTime.now()}');
+      } else {
+        print('[refreshTokenPeriodically] 토큰 갱신 실패 : ${DateTime.now()}');
+        logout();
       }
     }
     print('[refreshTokenPeriodically] 토큰 갱신 종료 : ${DateTime.now()}');
