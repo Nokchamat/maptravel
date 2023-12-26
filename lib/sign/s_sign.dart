@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:maptravel/api/api_sign.dart';
-import 'package:maptravel/main.dart';
+import 'package:maptravel/s_main_page.dart';
 import 'package:maptravel/write/input_container.dart';
 
 import '../alert_dialog/alert_dialog.dart';
@@ -32,13 +32,16 @@ class _SignScreenState extends State<SignScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const MyApp()),
-        );
-        return false;
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        if (!didPop) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const MainPage()),
+            (route) => false,
+          );
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -173,7 +176,7 @@ class _SignScreenState extends State<SignScreen> {
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const MyApp()),
+                                builder: (context) => const MainPage()),
                             (route) => false,
                           );
                         } else {

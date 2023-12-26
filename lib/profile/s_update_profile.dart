@@ -6,9 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:maptravel/alert_dialog/alert_dialog.dart';
 import 'package:maptravel/api/api_profile.dart';
 import 'package:maptravel/dto/vo_user.dart';
+import 'package:maptravel/s_main_page.dart';
 
 import '../common/constant/profile_constant.dart';
-import '../main.dart';
 import '../service/image_picker_service.dart';
 import '../write/input_container.dart';
 
@@ -71,7 +71,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 }
 
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const MyApp()));
+                    MaterialPageRoute(builder: (context) => const MainPage()));
               },
               icon: const Icon(Icons.edit),
             ),
