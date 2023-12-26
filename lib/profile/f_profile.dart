@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:maptravel/api/common.dart';
 import 'package:maptravel/common/constant/profile_constant.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
-import 'package:maptravel/main.dart';
 import 'package:maptravel/profile/s_update_profile.dart';
+import 'package:maptravel/s_main_page.dart';
 
 import '../dto/vo_user.dart';
 import '../sign/s_sign.dart';
@@ -27,8 +27,8 @@ class _WriteScreenState extends State<ProfileFragment> {
 
     if (isLogin == null) {
       print('로그아웃 상태임 isLogin : $isLogin');
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const SignScreen()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const SignScreen()));
     } else {
       print('로그인 상태임');
       String? accessToken;
@@ -146,7 +146,7 @@ class _WriteScreenState extends State<ProfileFragment> {
               logout();
               Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => const MyApp()),
+                MaterialPageRoute(builder: (context) => const MainPage()),
                 (route) => false,
               );
             },

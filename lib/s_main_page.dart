@@ -23,10 +23,16 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'MapTravel',
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 30, color: Colors.green),
+        title: GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const MainPage()));
+          },
+          child: const Text(
+            'MapTravel',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.green),
+          ),
         ),
         surfaceTintColor: Colors.white,
         bottom: const PreferredSize(

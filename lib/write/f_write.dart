@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:maptravel/dto/vo_create_place_form.dart';
-import 'package:maptravel/main.dart';
+import 'package:maptravel/s_main_page.dart';
 import 'package:maptravel/write/w_place.dart';
 import 'package:maptravel/write/w_place_image.dart';
 import 'package:maptravel/write/w_small_button.dart';
@@ -127,7 +127,7 @@ class _WriteFragmentState extends State<WriteFragment> {
         print(responseData);
 
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const MyApp()));
+            context, MaterialPageRoute(builder: (context) => const MainPage()));
       } else {
         // 요청 실패한 경우
         print('요청 실패: ${response.reasonPhrase}');

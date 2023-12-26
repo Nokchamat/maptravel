@@ -30,7 +30,7 @@ class _SearchWidgetState extends State<SearchWidget> {
         child: Row(
           children: [
             Expanded(
-              flex: 3,
+              flex: 4,
               child: Container(
                 padding: const EdgeInsets.only(left: 19, right: 4),
                 child: DropdownButton<SearchType>(
@@ -58,7 +58,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                 decoration: InputDecoration(
                   fillColor: Colors.transparent,
                   filled: true,
-                  hintText: '이름을 검색해주세요.',
+                  hintText: '${searchTypeKorean[selectedSearchType]}명을 검색해주세요.',
                   border: InputBorder.none,
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(left: 12),
@@ -81,39 +81,4 @@ class _SearchWidgetState extends State<SearchWidget> {
       ),
     );
   }
-
-// @override
-// Widget build(BuildContext context) {
-//   return Padding(
-//     padding: const EdgeInsets.all(8.0),
-//     child: Container(
-//       width: MediaQuery.of(context).size.width,
-//       decoration: BoxDecoration(
-//         color: Colors.green.shade300,
-//         borderRadius: BorderRadius.circular(20),
-//       ),
-//       child: TextField(
-//         controller: searchController,
-//         keyboardType: TextInputType.text,
-//         decoration: InputDecoration(
-//           hintText: '나라나 도시 이름을 검색해주세요.',
-//           border: InputBorder.none,
-//           suffixIcon: Padding(
-//             padding: const EdgeInsets.only(left: 12),
-//             child: IconButton(
-//               onPressed: () {
-//                 Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                         builder: (context) => SearchPlaneScreen(
-//                             searchText: searchController.text)));
-//               },
-//               icon: const Icon(Icons.search),
-//             ),
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }
 }

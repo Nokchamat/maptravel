@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:maptravel/Home/w_search_widget.dart';
 import 'package:maptravel/alert_dialog/alert_dialog.dart';
 import 'package:maptravel/api/api_home.dart';
 import 'package:maptravel/common/enum/search_type.dart';
@@ -77,19 +76,12 @@ class _SearchPlaneScreen extends State<SearchPlaneScreen> {
       appBar: AppBar(
         title: Text('"${widget.searchText}" 검색 결과'),
       ),
-      body: Column(
-        children: [
-          const SearchWidget(),
-          Expanded(
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(
-                children: List.generate(_planeList.length,
-                    (index) => PlaneWidget(planeList: _planeList[index])),
-              ),
-            ),
-          )
-        ],
+      body: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          children: List.generate(_planeList.length,
+              (index) => PlaneWidget(planeList: _planeList[index])),
+        ),
       ),
     );
   }

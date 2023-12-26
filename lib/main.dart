@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
-import 'package:maptravel/s_main_page.dart';
+import 'package:maptravel/splash/s_splash.dart';
 
 import 'api/common.dart';
 
@@ -22,10 +22,10 @@ void refreshTokenPeriodically() async {
     );
 
     if (response.statusCode == 200) {
-      print(
-          '[refreshTokenPeriodically] accessToken : ${response.headers['access_token']}');
-      print(
-          '[refreshTokenPeriodically] refreshToken : ${response.headers['refresh_token']}');
+      // print(
+      //     '[refreshTokenPeriodically] accessToken : ${response.headers['access_token']}');
+      // print(
+      //     '[refreshTokenPeriodically] refreshToken : ${response.headers['refresh_token']}');
       savedRefreshToken(
         response.headers['access_token']!,
         response.headers['refresh_token']!,
@@ -50,10 +50,10 @@ void refreshTokenPeriodically() async {
       );
 
       if (response.statusCode == 200) {
-        print(
-            '[refreshTokenPeriodically] accessToken : ${response.headers['access_token']}');
-        print(
-            '[refreshTokenPeriodically] refreshToken : ${response.headers['refresh_token']}');
+        // print(
+        //     '[refreshTokenPeriodically] accessToken : ${response.headers['access_token']}');
+        // print(
+        //     '[refreshTokenPeriodically] refreshToken : ${response.headers['refresh_token']}');
         savedRefreshToken(
           response.headers['access_token']!,
           response.headers['refresh_token']!,
@@ -94,17 +94,16 @@ class MyApp extends StatelessWidget {
                   fontSize: 20,
                   color: Colors.black)),
           headlineMedium: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-            color: Colors.white,
-            shadows: [
-              Shadow(
-                blurRadius: 5.0,
-                color: Colors.black,
-                offset: Offset(1.0, 1.0),
-              )
-            ]
-          ),
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.white,
+              shadows: [
+                Shadow(
+                  blurRadius: 5.0,
+                  color: Colors.black,
+                  offset: Offset(1.0, 1.0),
+                )
+              ]),
           headlineSmall: const TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
           bodyMedium: const TextStyle(
@@ -127,7 +126,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
       ),
-      home: const MainPage(),
+      home: const SplashScreen(),
     );
   }
 }
