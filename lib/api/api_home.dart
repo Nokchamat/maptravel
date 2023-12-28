@@ -59,3 +59,34 @@ Future<PlaneListResponse> getPlaneListByNickname(String nickname, int page) asyn
 
   return PlaneListResponse.fromJson(parsedJson);
 }
+
+Future<PlaneListResponse> getMyPlaneList(int page) async {
+  String? accessToken;
+  accessToken = await getAccessToken();
+
+  final jsonResponse = await http.get(Uri.parse(
+      '$baseUrl/v1/plane/myplane?size=5&page=$page'),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "access_token": accessToken ?? "",
+      });
+
+  Map<String, dynamic> parsedJson =
+  json.decode(utf8.decode(jsonResponse.bodyBytes));
+
+  return PlaneListResponse.fromJson(parsedJson);
+}
+
+Future<http.Response> removePlane(int planeId) async {
+  String? accessToken;
+  accessToken = await getAccessToken();
+
+  return await http.delete(Uri.parse(
+      '$baseUrl/v1/plane/$planeId'),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "access_token": accessToken ?? "",
+      });
+}

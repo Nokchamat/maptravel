@@ -49,11 +49,9 @@ class _BookmarkFragment extends State<BookmarkFragment> {
   }
 
   void removeBookmark(Bookmark bookmarkToRemove) {
-    print('length : ${_bookmarkList.length}');
     setState(() {
       _bookmarkList.remove(bookmarkToRemove); // 해당 위젯 제거
     });
-    print('length : ${_bookmarkList.length}');
   }
 
   void _scrollListener() {

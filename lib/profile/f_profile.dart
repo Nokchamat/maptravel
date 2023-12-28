@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:maptravel/api/common.dart';
 import 'package:maptravel/common/constant/profile_constant.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
+import 'package:maptravel/profile/s_my_plane.dart';
 import 'package:maptravel/profile/s_update_profile.dart';
 import 'package:maptravel/s_main_page.dart';
 
@@ -138,6 +139,28 @@ class _WriteScreenState extends State<ProfileFragment> {
               child: Container(
                 padding: const EdgeInsets.all(10),
                 child: const Text('프로필 수정'),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyPlane(userId: _user.id)));
+            },
+            child: Container(
+              alignment: Alignment.centerLeft,
+              height: 50,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(color: Colors.grey.shade200),
+                    bottom: BorderSide(color: Colors.grey.shade200),
+                  )),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: const Text('내가 작성한 여행'),
               ),
             ),
           ),
