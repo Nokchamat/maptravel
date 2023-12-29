@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:maptravel/dto/vo_plane_list.dart';
+import 'package:maptravel/home/s_my_plane.dart';
 import 'package:maptravel/plane_detail/s_plane_detail.dart';
 
 import '../api/common.dart';
@@ -58,34 +59,48 @@ class _PlaneWidgetState extends State<PlaneWidget> {
                     ),
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.planeList.userNickname,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          widget.planeList.country,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3),
-                          child: Icon(
-                            Icons.circle,
-                            size: 5,
+                GestureDetector(
+                  onTap: () {
+                    print('userID : ${widget.planeList.userId}');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PlaneListByUserScreen(
+                                  userId: widget.planeList.userId,
+                                  userNickname: widget.planeList.userNickname,
+                                  userProfileImageUrl:
+                                      widget.planeList.userProfileImageUrl,
+                                )));
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.planeList.userNickname,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            widget.planeList.country,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
-                        ),
-                        Text(
-                          widget.planeList.city,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
-                  ],
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 3),
+                            child: Icon(
+                              Icons.circle,
+                              size: 5,
+                            ),
+                          ),
+                          Text(
+                            widget.planeList.city,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

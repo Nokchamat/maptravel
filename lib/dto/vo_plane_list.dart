@@ -6,6 +6,7 @@ class PlaneList {
   final String city;
   final String thumbnailUrl;
   final int viewCount;
+  final int userId;
   final String userNickname;
   final String userProfileImageUrl;
   final bool isLikes;
@@ -20,6 +21,7 @@ class PlaneList {
     required this.city,
     required this.viewCount,
     required this.thumbnailUrl,
+    required this.userId,
     required this.userNickname,
     required this.userProfileImageUrl,
     required this.isLikes,
@@ -36,6 +38,7 @@ class PlaneList {
       city: json['city'],
       viewCount: json['viewCount'],
       thumbnailUrl: json['thumbnailUrl'],
+      userId: json['userId'],
       userNickname: json['userNickname'],
       userProfileImageUrl: json['userProfileImageUrl'],
       isLikes: json['isLikes'],
