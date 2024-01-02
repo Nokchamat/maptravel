@@ -65,7 +65,7 @@ Future<PlaneListResponse> getMyPlaneList(int page) async {
   accessToken = await getAccessToken();
 
   final jsonResponse = await http.get(Uri.parse(
-      '$baseUrl/v1/plane/myplane?size=5&page=$page'),
+      '$baseUrl/v1/plane/myplane?size=8&page=$page'),
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -83,7 +83,7 @@ Future<PlaneListResponse> getPlaneListByUserId(int userId, int page) async {
   accessToken = await getAccessToken();
 
   final jsonResponse = await http.get(Uri.parse(
-      '$baseUrl/v1/plane/user/$userId?size=5&page=$page'),
+      '$baseUrl/v1/plane/user/$userId?size=8&page=$page'),
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json",

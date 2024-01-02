@@ -1,11 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:maptravel/api/api_key.dart';
+import 'package:maptravel/dto/vo_place.dart';
+import 'package:maptravel/plane_detail/map/w_place_location.dart';
+
+import '../../dto/vo_plane.dart';
 
 class MapScreen extends StatefulWidget {
+  final Plane plane;
+
+  const MapScreen({super.key, required this.plane});
+
   @override
   _MapScreenState createState() => _MapScreenState();
 }
@@ -13,104 +17,140 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   GoogleMapController? mapController;
   TextEditingController searchController = TextEditingController();
-  Set<Marker> markers = {};
+  final List<Marker> _markers = [];
+  bool showDetail = false;
+  Place? currentPlace;
+
+  init() async {
+    List<Marker> markers = [];
+
+    await Future.forEach(widget.plane.placeList, (place) {
+      markers.add(
+        Marker(
+            markerId: MarkerId(place.subject),
+            draggable: true,
+            position: LatLng(place.latitude, place.longitude),
+            infoWindow: InfoWindow(
+              title: place.subject,
+            ),
+            onTap: () {
+              setState(() {
+                currentPlace = place;
+                showDetail = true;
+              });
+            }),
+      );
+    });
+
+    setState(() {
+      _markers.addAll(markers);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Google Maps Search'),
+        title: const Text('지도로 보기'),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          TextField(
-            controller: searchController,
-            decoration: InputDecoration(
-              hintText: 'Enter a location',
-              suffixIcon: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  searchLocation();
-                },
+          GoogleMap(
+            myLocationButtonEnabled: false,
+            markers: Set.from(_markers),
+            onMapCreated: (GoogleMapController controller) {
+              mapController = controller;
+            },
+            initialCameraPosition: CameraPosition(
+              target: LatLng(
+                widget.plane.placeList[0].latitude,
+                widget.plane.placeList[0].longitude,
+              ),
+              zoom: 12.0,
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: widget.plane.placeList.map((place) {
+                  return PlaceLocationWidget(
+                    place: place,
+                    mapController: mapController,
+                  );
+                }).toList(),
               ),
             ),
           ),
-          Expanded(
-            child: GoogleMap(
-              onMapCreated: (GoogleMapController controller) {
-                mapController = controller;
-              },
-              initialCameraPosition: CameraPosition(
-                target: LatLng(33.557366, 130.465370),
-                zoom: 12.0,
+          if (showDetail == true)
+            Positioned(
+              bottom: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32.0),
+                child: TapRegion(
+                  onTapOutside: (tap) {
+                    if (showDetail) {
+                      setState(() {
+                        showDetail = false;
+                      });
+                    }
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 180,
+                    color: Colors.grey[200],
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.all(8),
+                          width: 150,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image:
+                                  NetworkImage(currentPlace!.pictureUrlArray[0]),
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  currentPlace!.subject,
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                Text(
+                                  currentPlace!.content,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
-  }
-
-  Future<void> searchLocation() async {
-    if (searchController.text.isNotEmpty) {
-      print('searchLocation!! : ${searchController.text}');
-      String key = googlePlaceApiKey;
-
-        try {
-          var response = await http.post(
-            Uri.parse('https://places.googleapis.com/v1/places:searchText'),
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Goog-Api-Key': key,
-              'X-Goog-FieldMask': 'places.displayName,places.formattedAddress,places.priceLevel',
-              'Accept-Language': 'ko', // 한국어로 결과를 요청
-            },
-            body: json.encode({
-              'textQuery': searchController.text,
-            }),
-          );
-
-          if (response.statusCode == 200) {
-            // 요청 성공
-            var jsonResponse = json.decode(response.body);
-            print('Response: ${jsonResponse['places']}');
-            List places = jsonResponse['places'];
-            print('개수 : ${places.length}');
-            for(int i=0; i<places.length; i++) {
-              var item = places[i];
-              var displayName = item['displayName'];
-              print('$i번째 : ${item['formattedAddress']}, displayName : ${displayName['text']}');
-            }
-
-            // 여기에서 jsonResponse를 처리합니다.
-          } else {
-            // 요청 실패
-            print('Request failed with status: ${response.statusCode}');
-            print('Request failed with status: ${response.body}');
-          }
-        } catch (e) {
-          // 에러 처리
-          print('Error: $e');
-        }
-      //   mapController!.animateCamera(CameraUpdate.newCameraPosition(
-      //     CameraPosition(
-      //       target: LatLng(locations.first.latitude, locations.first.longitude),
-      //       zoom: 14.0,
-      //     ),
-      //   ));
-      //   _addMarker(LatLng(locations.first.latitude, locations.first.longitude));
-    }
-  }
-
-  void _addMarker(LatLng position) {
-    setState(() {
-      markers = {
-        Marker(
-          markerId: MarkerId('searched_location'),
-          position: position,
-          infoWindow: InfoWindow(title: 'Searched Location'),
-        ),
-      };
-    });
   }
 }
