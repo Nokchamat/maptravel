@@ -130,7 +130,8 @@ class _WriteFragmentState extends State<WriteFragment> {
             context, MaterialPageRoute(builder: (context) => const MainPage()));
       } else {
         // 요청 실패한 경우
-        print('요청 실패: ${response.reasonPhrase}');
+        print('요청 실패: ${response.statusCode}');
+        print('요청 실패: ${response}');
       }
     } catch (e) {
       print('오류 발생: $e');
