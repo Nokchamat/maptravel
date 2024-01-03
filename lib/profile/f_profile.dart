@@ -166,11 +166,34 @@ class _WriteScreenState extends State<ProfileFragment> {
           ),
           GestureDetector(
             onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LicensePage()),
+              );
+            },
+            child: Container(
+              alignment: Alignment.centerLeft,
+              height: 50,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Colors.grey.shade200),
+                  bottom: BorderSide(color: Colors.grey.shade200),
+                ),
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                child: const Text('오픈소스 라이센스'),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
               logout();
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const MainPage()),
-                (route) => false,
+                    (route) => false,
               );
             },
             child: Container(

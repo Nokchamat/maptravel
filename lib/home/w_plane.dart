@@ -238,12 +238,12 @@ class _PlaneWidgetState extends State<PlaneWidget> {
                         ),
                       ],
                     ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.chat_bubble_outline,
-                          size: 30,
-                        )),
+                    // IconButton(
+                    //     onPressed: () {},
+                    //     icon: const Icon(
+                    //       Icons.chat_bubble_outline,
+                    //       size: 30,
+                    //     )),
                     IconButton(
                       onPressed: () async {
                         String? accessToken;
