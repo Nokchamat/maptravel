@@ -40,7 +40,8 @@ class PlaneList {
       thumbnailUrl: json['thumbnailUrl'],
       userId: json['userId'],
       userNickname: json['userNickname'],
-      userProfileImageUrl: json['userProfileImageUrl'],
+      userProfileImageUrl:
+          json['userProfileImageUrl'].toString().replaceAll('https', 'http'),
       isLikes: json['isLikes'],
       isBookmark: json['isBookmark'],
       likesCount: json['likesCount'],
@@ -87,4 +88,3 @@ class PlaneListResponse {
     );
   }
 }
-

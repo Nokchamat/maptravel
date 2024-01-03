@@ -17,7 +17,9 @@ class User {
     return User(
       id: json['id'],
       nickname: json['nickname'],
-      profileImageUrl: json['profileImageUrl'] ?? "",
+      profileImageUrl: (json['profileImageUrl'] ?? "")
+          .toString()
+          .replaceAll('https', 'http'),
       followerCount: json['followerCount'],
       isEmailVerify: json['isEmailVerify'],
     );

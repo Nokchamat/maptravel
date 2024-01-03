@@ -25,7 +25,7 @@ class Bookmark {
       content: json['content'],
       country: json['country'],
       city: json['city'],
-      thumbnailUrl: json['thumbnailUrl'],
+      thumbnailUrl: json['thumbnailUrl'].toString().replaceAll('https', 'http'),
     );
   }
 }

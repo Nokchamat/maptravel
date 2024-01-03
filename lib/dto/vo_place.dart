@@ -25,8 +25,9 @@ class Place {
       address: json['address'],
       latitude: json['latitude'],
       longitude: json['longitude'],
-      pictureUrlArray: (json['pictureUrlArray'] as List<dynamic>)
-          .map((url) => url as String)
+      pictureUrlArray: (json['pictureUrlArray']
+              as List<dynamic>)
+          .map((url) => url.toString().replaceAll('https', 'http'))
           .toList(),
     );
   }
