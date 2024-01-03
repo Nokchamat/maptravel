@@ -43,7 +43,8 @@ class Plane {
       viewCount: json['viewCount'],
       thumbnailUrl: json['thumbnailUrl'],
       userNickname: json['userNickname'],
-      userProfileImageUrl: json['userProfileImageUrl'],
+      userProfileImageUrl:
+          json['userProfileImageUrl'].toString().replaceAll('https', 'http'),
       isLikes: json['isLikes'],
       isBookmark: json['isBookmark'],
       placeList: placeList,
