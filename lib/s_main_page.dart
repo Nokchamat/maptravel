@@ -23,6 +23,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: GestureDetector(
           onTap: () {
             Navigator.push(context,

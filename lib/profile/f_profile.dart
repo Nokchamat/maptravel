@@ -5,8 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:maptravel/api/common.dart';
 import 'package:maptravel/common/constant/profile_constant.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
+import 'package:maptravel/profile/s_email_verify.dart';
 import 'package:maptravel/profile/s_my_plane.dart';
 import 'package:maptravel/profile/s_update_profile.dart';
+import 'package:maptravel/profile/w_profile_gesture_detector.dart';
 import 'package:maptravel/s_main_page.dart';
 
 import '../dto/vo_user.dart';
@@ -127,20 +129,7 @@ class _WriteScreenState extends State<ProfileFragment> {
                   MaterialPageRoute(
                       builder: (context) => UpdateProfileScreen(user: _user)));
             },
-            child: Container(
-              alignment: Alignment.centerLeft,
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border(
-                top: BorderSide(color: Colors.grey.shade200),
-                bottom: BorderSide(color: Colors.grey.shade200),
-              )),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: const Text('프로필 수정'),
-              ),
-            ),
+            child: const ProfileContainerWidget(text: "프로필 수정"),
           ),
           GestureDetector(
             onTap: () {
@@ -149,21 +138,18 @@ class _WriteScreenState extends State<ProfileFragment> {
                   MaterialPageRoute(
                       builder: (context) => MyPlane(userId: _user.id)));
             },
-            child: Container(
-              alignment: Alignment.centerLeft,
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Colors.grey.shade200),
-                    bottom: BorderSide(color: Colors.grey.shade200),
-                  )),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: const Text('내가 작성한 여행'),
-              ),
-            ),
+            child: const ProfileContainerWidget(text: "내가 작성한 여행"),
           ),
+          if (!_user.isEmailVerify)
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const EmailVerifyScreen()));
+              },
+              child: const ProfileContainerWidget(text: "이메일 인증하기"),
+            ),
           GestureDetector(
             onTap: () {
               Navigator.push(
@@ -171,21 +157,7 @@ class _WriteScreenState extends State<ProfileFragment> {
                 MaterialPageRoute(builder: (context) => const LicensePage()),
               );
             },
-            child: Container(
-              alignment: Alignment.centerLeft,
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.grey.shade200),
-                  bottom: BorderSide(color: Colors.grey.shade200),
-                ),
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: const Text('오픈소스 라이센스'),
-              ),
-            ),
+            child: const ProfileContainerWidget(text: "오픈소스 라이센스"),
           ),
           GestureDetector(
             onTap: () {
@@ -193,24 +165,10 @@ class _WriteScreenState extends State<ProfileFragment> {
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => const MainPage()),
-                    (route) => false,
+                (route) => false,
               );
             },
-            child: Container(
-              alignment: Alignment.centerLeft,
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(color: Colors.grey.shade200),
-                  bottom: BorderSide(color: Colors.grey.shade200),
-                ),
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: const Text('로그아웃'),
-              ),
-            ),
+            child: const ProfileContainerWidget(text: "로그아웃"),
           ),
         ],
       ),

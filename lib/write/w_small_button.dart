@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 
 class SmallButtonWidget extends StatelessWidget {
   final String buttonText;
+  final double width;
+  final double height;
 
-  const SmallButtonWidget({super.key, required this.buttonText});
+  const SmallButtonWidget(
+      {super.key, required this.buttonText, this.width = 50, this.height = 30});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
       child: Container(
-        width: 50,
-        height: 30,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey,
