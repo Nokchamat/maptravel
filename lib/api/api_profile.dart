@@ -48,3 +48,26 @@ Future<http.StreamedResponse> updateProfile(profileImage) async {
 
   return await formData.send();
 }
+
+Future<http.Response> reSendEmail() async {
+  String? accessToken;
+  accessToken = await getAccessToken();
+
+  return await http.get(Uri.parse('$baseUrl/v1/user/resend-email'), headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    "access_token": accessToken ?? "",
+  });
+}
+
+Future<http.Response> verifyEmail(code) async {
+  String? accessToken;
+  accessToken = await getAccessToken();
+
+  return await http.post(
+    Uri.parse('$baseUrl/v1/user/verify?code=$code'),
+    headers: {
+      "access_token": accessToken ?? "",
+    },
+  );
+}

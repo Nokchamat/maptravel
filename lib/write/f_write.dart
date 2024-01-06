@@ -128,10 +128,11 @@ class _WriteFragmentState extends State<WriteFragment> {
 
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const MainPage()));
+        showAlertDialog(context, '여행이 작성되었습니다.');
       } else {
         // 요청 실패한 경우
         print('요청 실패: ${response.statusCode}');
-        print('요청 실패: ${response}');
+        showAlertDialog(context, '이메일 인증이 필요한 작업입니다. 프로필에서 이메일 인증을 해주세요.');
       }
     } catch (e) {
       print('오류 발생: $e');

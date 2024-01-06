@@ -100,8 +100,11 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MapScreen(plane: widget.plane)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MapScreen(plane: widget.plane)));
                 },
                 icon: const Icon(Icons.map),
               ),
@@ -163,6 +166,7 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                     ? const Icon(
                         Icons.favorite,
                         size: 30,
+                        color: Colors.red,
                       )
                     : const Icon(
                         Icons.favorite_outline,
@@ -224,6 +228,7 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                     ? const Icon(
                         Icons.bookmark,
                         size: 30,
+                        color: Colors.green,
                       )
                     : const Icon(
                         Icons.bookmark_border_outlined,
