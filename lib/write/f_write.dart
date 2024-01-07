@@ -106,7 +106,12 @@ class _WriteFragmentState extends State<WriteFragment> {
           'createPlaceFormList[$i].subject': createPlaceForm.subject,
           'createPlaceFormList[$i].content': createPlaceForm.content,
           'createPlaceFormList[$i].address': createPlaceForm.address,
+          'createPlaceFormList[$i].latitude': createPlaceForm.latitude,
+          'createPlaceFormList[$i].longitude': createPlaceForm.longitude,
         });
+
+        print(createPlaceForm.latitude);
+        print(createPlaceForm.longitude);
 
         for (var picture in createPlaceForm.pictureList) {
           formData.files.add(await http.MultipartFile.fromPath(

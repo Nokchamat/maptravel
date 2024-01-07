@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:maptravel/dto/vo_google_place.dart';
 
-searchAddressDialog(BuildContext context,
-    List<GooglePlace> places,
-    TextEditingController addressController,
-    TextEditingController countryController,
-    TextEditingController cityController) {
+searchAddressDialog(
+  BuildContext context,
+  List<GooglePlace> places,
+  TextEditingController addressController,
+  TextEditingController countryController,
+  TextEditingController cityController,
+  TextEditingController latitudeController,
+  TextEditingController longitudeController,
+) {
   return showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -19,8 +23,12 @@ searchAddressDialog(BuildContext context,
                 subtitle: Text(place.formattedAddress),
                 onTap: () {
                   addressController.text = place.formattedAddress;
+                  latitudeController.text = place.location.latitude.toString();
+                  longitudeController.text =
+                      place.location.longitude.toString();
 
-                  if(countryController.text.isEmpty || cityController.text.isEmpty) {
+                  if (countryController.text.isEmpty ||
+                      cityController.text.isEmpty) {
                     for (AddressComponents item in place.addressComponents) {
                       if (item.types[0] == 'country') {
                         countryController.text = item.longText;
