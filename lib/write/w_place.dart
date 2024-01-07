@@ -16,6 +16,8 @@ class PlaceWidget extends StatefulWidget {
   final TextEditingController subjectController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  final TextEditingController latitudeController = TextEditingController();
+  final TextEditingController longitudeController = TextEditingController();
   final TextEditingController countryController;
   final TextEditingController cityController;
   final List<XFile> selectedImages = [];
@@ -30,6 +32,8 @@ class PlaceWidget extends StatefulWidget {
       subject: subjectController.text,
       content: contentController.text,
       address: addressController.text,
+      latitude: latitudeController.text,
+      longitude: longitudeController.text,
       pictureList: selectedImages,
     );
   }
@@ -159,6 +163,8 @@ class _PlaceWidgetState extends State<PlaceWidget> {
                           widget.addressController,
                           widget.countryController,
                           widget.cityController,
+                          widget.latitudeController,
+                          widget.longitudeController,
                         );
                       } else {
                         // 요청 실패

@@ -37,7 +37,7 @@ class PlaneList {
       country: json['country'],
       city: json['city'],
       viewCount: json['viewCount'],
-      thumbnailUrl: json['thumbnailUrl'],
+      thumbnailUrl: json['thumbnailUrl'].toString().replaceAll('https', 'http'),
       userId: json['userId'],
       userNickname: json['userNickname'],
       userProfileImageUrl:

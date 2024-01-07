@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:maptravel/api/api_sign.dart';
 import 'package:maptravel/s_main_page.dart';
@@ -251,6 +252,53 @@ class _SignScreenState extends State<SignScreen> {
                       },
                       child: const Text('회원가입'),
                     ),
+              ElevatedButton(
+                onPressed: () async {
+                  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+                  if(googleUser != null) {
+                    print(googleUser.displayName);
+                    print(googleUser.email);
+                    print(googleUser.id);
+
+                    final response = await http.post(
+                      Uri.parse('$baseUrl/v1/signin/google'),
+                      headers: <String, String>{
+                        'Content-Type': 'application/json',
+                      },
+                      body: jsonEncode({
+                        "displayName": googleUser.displayName,
+                        "email": googleUser.email,
+                        "id": googleUser.id,
+                      }),
+                    );
+
+                    if (response.statusCode == 200) {
+                      print('로그인 완료');
+                      login(Token(
+                        response.headers['access_token']!,
+                        response.headers['refresh_token']!,
+                      ));
+
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MainPage()),
+                            (route) => false,
+                      );
+                    } else {
+                      // 로그인 실패 시 알럿 창 띄우기
+                      print('로그인 실패 : ${response.statusCode}');
+                      print('로그인 실패 : ${response.body}');
+                      showAlertDialog(
+                          context,
+                          json.decode(
+                              utf8.decode(response.bodyBytes))['message']);
+                    }
+                  }
+                },
+                child: const Text('Google 로그인'),
+              ),
             ],
           ),
         ),
