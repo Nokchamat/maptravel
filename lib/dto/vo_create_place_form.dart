@@ -22,12 +22,16 @@ class CreatePlaceForm {
   final String subject;
   final String content;
   final String address;
+  final String latitude;
+  final String longitude;
   final List<XFile> pictureList;
 
   CreatePlaceForm({
     required this.subject,
     required this.content,
     required this.address,
+    required this.latitude,
+    required this.longitude,
     required this.pictureList,
   });
 }
