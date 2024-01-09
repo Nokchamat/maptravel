@@ -55,7 +55,7 @@ class GridPlaneWidget extends StatelessWidget {
             child: IconButton(
               onPressed: () async {
                 // showDialog를 사용하여 AlertDialog 표시
-                bool confirmDelete = await confirmDialog(context);
+                bool confirmDelete = await confirmDialog(context, '삭제하시겠습니까?');
 
                 if (confirmDelete == true) {
                   // 사용자가 확인을 선택했을 때 실행될 코드

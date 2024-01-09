@@ -33,3 +33,4 @@ Storage.swift
 !default.mode2v3
 !default.pbxuser
 !default.perspectivev3
+./Runner/Info.plist

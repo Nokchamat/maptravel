@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:maptravel/alert_dialog/confirmDialog.dart';
+import 'package:maptravel/api/api_profile.dart';
 import 'package:maptravel/api/common.dart';
 import 'package:maptravel/common/constant/profile_constant.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
@@ -158,6 +160,28 @@ class _WriteScreenState extends State<ProfileFragment> {
               );
             },
             child: const ProfileContainerWidget(text: "오픈소스 라이센스"),
+          ),
+          GestureDetector(
+            onTap: () async {
+              bool confirmDelete = await confirmDialog(context, '회원 탈퇴하시겠습니까?');
+
+              if (confirmDelete) {
+                http.Response response = await withdrawAccount();
+
+                if (response.statusCode == 200) {
+                  await checkDialog(context, '회원 탈퇴가 완료되었습니다.');
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MainPage()),
+                    (route) => false,
+                  );
+                } else {
+                  textDialog(context,
+                      '${json.decode(utf8.decode(response.bodyBytes))['message']}');
+                }
+              }
+            },
+            child: const ProfileContainerWidget(text: "회원 탈퇴"),
           ),
           GestureDetector(
             onTap: () {
