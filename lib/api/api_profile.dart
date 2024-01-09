@@ -71,3 +71,15 @@ Future<http.Response> verifyEmail(code) async {
     },
   );
 }
+
+Future<http.Response> withdrawAccount() async {
+  String? accessToken;
+  accessToken = await getAccessToken();
+
+  return await http.delete(
+    Uri.parse('$baseUrl/v1/user'),
+    headers: {
+      "access_token": accessToken ?? "",
+    },
+  );
+}
