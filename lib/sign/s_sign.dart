@@ -5,6 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:maptravel/api/api_sign.dart';
 import 'package:maptravel/s_main_page.dart';
+import 'package:maptravel/sign/terms/s_privacy.dart';
+import 'package:maptravel/sign/terms/s_terms.dart';
 import 'package:maptravel/write/input_container.dart';
 
 import '../alert_dialog/alert_dialog.dart';
@@ -25,6 +27,8 @@ class _SignScreenState extends State<SignScreen> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _nickname = TextEditingController();
   bool isLoginForm = true;
+  bool _isTermsChecked = false;
+  bool _isPrivacyChecked = false;
 
   @override
   void initState() {
@@ -150,6 +154,73 @@ class _SignScreenState extends State<SignScreen> {
                           hintText: 'Nickname',
                           maxLines: 1,
                         ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: _isTermsChecked,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isTermsChecked = value!;
+                                    });
+                                  },
+                                ),
+                                Text(
+                                  '서비스 이용약관 동의',
+                                  style: TextStyle(color: Colors.green[900]),
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const TermsScreen()),
+                                );
+                              },
+                              child: const Icon(
+                                  Icons.arrow_forward_ios
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: _isPrivacyChecked,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isPrivacyChecked = value!;
+                                    });
+                                  },
+                                ),
+                                Text(
+                                  '개인정보 수집 및 동의',
+                                  style: TextStyle(color: Colors.green[900]),
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const PrivacyScreen()),
+                                );
+                              },
+                              child: const Icon(
+                                  Icons.arrow_forward_ios
+                              ),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 16),
                       ],
                     ),
@@ -193,6 +264,10 @@ class _SignScreenState extends State<SignScreen> {
                     )
                   : ElevatedButton(
                       onPressed: () async {
+                        if (!_isPrivacyChecked || !_isTermsChecked) {
+                          showAlertDialog(context, '약관 확인을 부탁드립니다.');
+                          return;
+                        }
                         if (_email.text.isEmpty ||
                             _password.text.isEmpty ||
                             _passwordCheck.text.isEmpty ||
@@ -254,9 +329,10 @@ class _SignScreenState extends State<SignScreen> {
                     ),
               ElevatedButton(
                 onPressed: () async {
-                  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+                  final GoogleSignInAccount? googleUser =
+                      await GoogleSignIn().signIn();
 
-                  if(googleUser != null) {
+                  if (googleUser != null) {
                     print(googleUser.displayName);
                     print(googleUser.email);
                     print(googleUser.id);
@@ -284,7 +360,7 @@ class _SignScreenState extends State<SignScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const MainPage()),
-                            (route) => false,
+                        (route) => false,
                       );
                     } else {
                       // 로그인 실패 시 알럿 창 띄우기
