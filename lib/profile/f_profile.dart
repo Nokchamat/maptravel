@@ -12,6 +12,7 @@ import 'package:maptravel/profile/s_my_plane.dart';
 import 'package:maptravel/profile/s_update_profile.dart';
 import 'package:maptravel/profile/w_profile_gesture_detector.dart';
 import 'package:maptravel/s_main_page.dart';
+import 'package:maptravel/sign/terms/s_terms.dart';
 
 import '../dto/vo_user.dart';
 import '../sign/s_sign.dart';
@@ -160,6 +161,15 @@ class _WriteScreenState extends State<ProfileFragment> {
               );
             },
             child: const ProfileContainerWidget(text: "오픈소스 라이센스"),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TermsScreen()),
+              );
+            },
+            child: const ProfileContainerWidget(text: "서비스 이용 약관"),
           ),
           GestureDetector(
             onTap: () async {
