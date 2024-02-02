@@ -15,8 +15,8 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  GoogleMapController? mapController;
   TextEditingController searchController = TextEditingController();
+  GoogleMapController? mapController;
   final List<Marker> _markers = [];
   bool showDetail = false;
   Place? currentPlace;
@@ -84,10 +84,14 @@ class _MapScreenState extends State<MapScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: widget.plane.placeList.map((place) {
-                  return PlaceLocationWidget(
-                    place: place,
-                    mapController: mapController,
-                  );
+                  if (mapController != null) {
+                    return PlaceLocationWidget(
+                      place: place,
+                      mapController: mapController,
+                    );
+                  } else {
+                    return Container();
+                  }
                 }).toList(),
               ),
             ),
