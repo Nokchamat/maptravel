@@ -12,6 +12,7 @@ class PlaneList {
   final bool isLikes;
   final bool isBookmark;
   final int likesCount;
+  final int commentCount;
 
   PlaneList({
     required this.planeId,
@@ -27,6 +28,7 @@ class PlaneList {
     required this.isLikes,
     required this.isBookmark,
     required this.likesCount,
+    required this.commentCount,
   });
 
   factory PlaneList.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class PlaneList {
       isLikes: json['isLikes'],
       isBookmark: json['isBookmark'],
       likesCount: json['likesCount'],
+      commentCount: json['commentCount'],
     );
   }
 }

@@ -332,11 +332,8 @@ class _SignScreenState extends State<SignScreen> {
                   final GoogleSignInAccount? googleUser =
                       await GoogleSignIn().signIn();
 
+                  showAlertDialog(context, 'googleUser : ${googleUser == null}');
                   if (googleUser != null) {
-                    print(googleUser.displayName);
-                    print(googleUser.email);
-                    print(googleUser.id);
-
                     final response = await http.post(
                       Uri.parse('$baseUrl/v1/signin/google'),
                       headers: <String, String>{
@@ -350,7 +347,6 @@ class _SignScreenState extends State<SignScreen> {
                     );
 
                     if (response.statusCode == 200) {
-                      print('로그인 완료');
                       login(Token(
                         response.headers['access_token']!,
                         response.headers['refresh_token']!,
@@ -363,9 +359,6 @@ class _SignScreenState extends State<SignScreen> {
                         (route) => false,
                       );
                     } else {
-                      // 로그인 실패 시 알럿 창 띄우기
-                      print('로그인 실패 : ${response.statusCode}');
-                      print('로그인 실패 : ${response.body}');
                       showAlertDialog(
                           context,
                           json.decode(

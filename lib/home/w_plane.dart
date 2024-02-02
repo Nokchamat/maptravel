@@ -7,6 +7,7 @@ import 'package:maptravel/plane_detail/s_plane_detail.dart';
 import '../api/common.dart';
 import '../common/secure_storage/secure_strage.dart';
 import '../sign/s_sign.dart';
+import 'comment/s_comment.dart';
 
 class PlaneWidget extends StatefulWidget {
   final PlaneList planeList;
@@ -238,12 +239,35 @@ class _PlaneWidgetState extends State<PlaneWidget> {
                         ),
                       ],
                     ),
-                    // IconButton(
-                    //     onPressed: () {},
-                    //     icon: const Icon(
-                    //       Icons.chat_bubble_outline,
-                    //       size: 30,
-                    //     )),
+                    Stack(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CommentScreen(
+                                          planeId: widget.planeList.planeId,
+                                        )));
+                          },
+                          icon: const Icon(
+                            Icons.comment,
+                            color: Colors.blue,
+                            size: 30,
+                          ),
+                        ),
+                        Positioned.fill(
+                          bottom: -3,
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              widget.planeList.commentCount.toString(),
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ), //좋아요 카운트
+                          ),
+                        ),
+                      ],
+                    ),
                     IconButton(
                       onPressed: () async {
                         String? accessToken;

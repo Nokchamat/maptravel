@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:maptravel/api/common.dart';
 import 'package:maptravel/common/secure_storage/secure_strage.dart';
+import 'package:maptravel/home/comment/s_comment.dart';
 import 'package:maptravel/plane_detail/map/s_map.dart';
 
 import '../dto/vo_plane.dart';
@@ -106,7 +107,10 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                           builder: (context) =>
                               MapScreen(plane: widget.plane)));
                 },
-                icon: const Icon(Icons.map),
+                icon: const Icon(
+                  Icons.map,
+                  color: Colors.brown,
+                ),
               ),
               IconButton(
                 onPressed: () async {
@@ -172,6 +176,19 @@ class _PlaneDetailAppBarWidgetState extends State<PlaneDetailAppBarWidget> {
                         Icons.favorite_outline,
                         size: 30,
                       ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CommentScreen(planeId: widget.plane.id,)));
+                },
+                icon: const Icon(
+                  Icons.comment,
+                  color: Colors.blue,
+                ),
               ),
               IconButton(
                 onPressed: () async {
